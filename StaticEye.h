@@ -7,8 +7,8 @@
 
 /** Image class and his fields */
 class StaticEye {
-    MapTree<int,void*> images_map_list;
-    MapList<int,Image> images_map_tree;
+    MapList<int,Image*> images_map_list;
+    MapTree<int,void*> images_map_tree;
     int segments;
 
     /** StaticEye's private functions */
@@ -36,7 +36,7 @@ public:
     /**
      * ~StaticEye() - the default destructor
      */
-    ~StaticEye()=default;
+    ~StaticEye();
 
     /**
      * delete the copy constructor

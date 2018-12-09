@@ -99,6 +99,30 @@ public:
      */
     bool IsKeyExists(const T &key);
 
+    /**
+     * GetFirstNode - get the first node of the list
+     *
+     * @return - the first node in the list
+     */
+    void* GetFirstNode(){return this->map_list.ListGetFirst();}
+
+    /**
+     * GetFirstNode - get the first node of the list
+     *
+     * @return - the next node of the map
+     */
+    void* GetNextNode(void* current_node){
+                          return this->map_list.ListGetNextNode(current_node);}
+
+    /**
+     * GetNodeData - get node and return the map element of the node
+     *
+     * @param current_node - node to get the element of
+     * @return the map element of the node
+     */
+    MapElement<T,K> GetNodeData(void* current_node){
+        return this->map_list.GetNodeData(current_node);}
+
 };
 
 /**
