@@ -26,7 +26,7 @@ void StaticEye::AddImage(int image_id){
         throw bad_allocation;
     } catch (typename MapList<int,void*>::KeyAlreadyExists&  ){
         throw StaticEye::Failure();
-    } catch (typename MapTree<int,Image>::KeyAlreadyExists ) {
+    } catch (typename MapTree<int,Image*>::KeyAlreadyExists ) {
         throw StaticEye::Failure();;
     }
 }

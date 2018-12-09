@@ -32,7 +32,7 @@ public:
     /**
     * MapElement() - MapElement constructor
     */
-    explicit MapElement(T key) : key(key) {}
+    explicit MapElement(T key) : key(key),value() {}
 
     /**
     * ~Node() - the destructor. destroy the Node
