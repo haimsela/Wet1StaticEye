@@ -74,6 +74,16 @@ class Image {
             int* segments,
             int number_of_uninitialized_segments);
 
+    /**
+     * FindNumberOfSegmentsWithLabel - this function get label and return the
+     *                                 number of segments in the image with
+     *                                 the label
+     *
+     * @param label - label to search
+     * @return number of segments with the label
+     */
+    int FindNumberOfSegmentsWithLabel(int label);
+
 public:
     /**                    Exceptions                    */
     class InvalidInput : public std::exception {};
@@ -134,6 +144,16 @@ public:
      * @return the number of unlabeled index
      */
     int GetAllUnLabeledSegments(int **segments);
+
+    /**
+     * GetAllSegmentsByLabel - This function get already allocated array and
+     *                         fill the array with all the segments in the
+     *                         image with the given label.
+     *
+     * @param segments - the segments array
+     * @param label - the label to find
+     */
+    void GetAllSegmentsByLabel(int **segments, int label );
 };
 
 

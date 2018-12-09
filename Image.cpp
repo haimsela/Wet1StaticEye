@@ -113,6 +113,45 @@ int Image::GetAllUnLabeledSegments(int **segments){
  return this->uninitialized_segments.GetLength();
 }
 
+/**
+ * FindNumberOfSegmentsWithLabel - this function get label and return the
+ *                                 number of segments in the image with
+ *                                 the label
+ *
+ * @param label - label to search
+ * @return number of segments with the label
+ */
+int Image::FindNumberOfSegmentsWithLabel(int label){
+    int number_of_segments_with_label=0;
+
+    for( int i=0;i<this->segments;i++){
+        if(this->segments_array[i]==label){
+            number_of_segments_with_label++;
+        }
+    }
+
+    return number_of_segments_with_label;
+}
+
+/**
+ * GetAllSegmentsByLabel - This function get already allocated array and
+ *                         fill the array with all the segments in the
+ *                         image with the given label.
+ *
+ * @param segments - the segments array
+ * @param label - the label to find
+ */
+void Image::GetAllSegmentsByLabel(int **segments, int label ){
+    int current_index_in_segments_array=0;
+
+    for(int i=0;i<this->segments;i++){
+        if(this->segments_array[i]==label){
+            *segments[current_index_in_segments_array] = i;
+            current_index_in_segments_array++;
+        }
+    }
+}
+
 /*========================================================================
   Image private functions:
 ========================================================================*/
