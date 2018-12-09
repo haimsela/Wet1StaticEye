@@ -58,6 +58,21 @@ class Image {
     */
     static bool IsLabelLegal(int label);
 
+    /**
+     * FillUnlabeledArrayUsingTheUnlabeledList - this function fill a given
+     *                                           array of unlabeled segments
+     *                                           using the unlabeled segments
+     *                                           list.
+     *
+     * @param uninitialized_segments_list - the unlabeled segments list
+     * @param segments - array to fill
+     * @param number_of_uninitialized_segments - number of uninitialized
+     *                                           labels
+     */
+    static void FillUnlabeledArrayUsingTheUnlabeledList(
+            List<int>* uninitialized_segments_list,
+            int* segments,
+            int number_of_uninitialized_segments);
 
 public:
     /**                    Exceptions                    */

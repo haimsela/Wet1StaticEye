@@ -102,7 +102,15 @@ void Image::DeleteLabel(int segment_id){
  * @return the number of unlabeled index
  */
 int Image::GetAllUnLabeledSegments(int **segments){
- *segments = malloc(sizeof(int)*(this->uninitialized_segments.GetLength()));
+ *segments = (int*)malloc(sizeof(**segments)*
+                                   (this->uninitialized_segments.GetLength()));
+
+    FillUnlabeledArrayUsingTheUnlabeledList(
+                                   &this->uninitialized_segments,
+                                   *segments,
+                                   this->uninitialized_segments.GetLength());
+
+ return this->uninitialized_segments.GetLength();
 }
 
 /*========================================================================
@@ -164,4 +172,28 @@ bool Image::IsSegmentIdLegal(int segment_id){
 */
 bool Image::IsLabelLegal(int label){
     return label > 0;
+}
+
+/**
+ * FillUnlabeledArrayUsingTheUnlabeledList - this function fill a given
+ *                                           array of unlabeled segments
+ *                                           using the unlabeled segments
+ *                                           list.
+ *
+ * @param uninitialized_segments_list - the unlabeled segments list
+ * @param segments - array to fill
+ * @param number_of_uninitialized_segments - number of uninitialized
+ *                                           labels
+ */
+void Image::FillUnlabeledArrayUsingTheUnlabeledList(
+                                        List<int>* uninitialized_segments_list,
+                                        int* segments,
+                                        int number_of_uninitialized_segments){
+    void* current_node = uninitialized_segments_list->ListGetFirst();
+
+    for(int i=0;i<number_of_uninitialized_segments;i++){
+        segments[i]=uninitialized_segments_list->GetNodeData(current_node);
+        current_node = uninitialized_segments_list->ListGetNextNode(
+                                                                 current_node);
+    }
 }
