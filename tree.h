@@ -8,7 +8,7 @@ using namespace std;
 
 /** Tree class and his fields */
 /**
- * @tparam T - the class of the elements in the list
+ * @tparam T - the class of the elements in the tree
  */
 template <class T>
 class Tree {
@@ -176,37 +176,143 @@ private:
      * @return the node new node that was created
      */
     Node* InsertNewNode(const T &data_to_insert);
+
+    /**
+     * RemoveNode - Remove Node
+     * @param node_to_remove - node to remove
+     * @return  node_after_the_one_removed - the node after the one removed
+     *                                       to the way to the root
+     */
+
     Node* RemoveNode(Node* node_to_remove);
+
+     /**
+      * UpdateNodeHeight - update node height of a node on the tree
+      * @param node_to_update - node to update
+      */
+
     void UpdateNodeHeight(Node* node_to_update);
+
+     /**
+      * BalanceFactorViolated - Balance factor violated
+      * @param root - root of the tree
+      * @return  true if the tree it need to rolled, false else
+      */
+
     bool BalanceFactorViolated(Node* root);
+
+    /**
+     * SwitchNodesPointers - switch between nodes pointers
+     * @param node1 - node one
+     * @param node2 - node two
+     */
+
     void SwitchNodesPointers(Node* node1,Node* node2);
+
+    /**
+     * RemoveOneOrLessSons - remove node when its case of one or less sons to
+     *                       the node to be removed
+     * @param node_to_remove - node to remove
+     * @param node_before_the_one_removed - node before the one to be removed
+     *                                      (the way to the leaf)
+     */
+
     bool RemoveOneOrLessSons(Node* node_to_remove,
                              Node** node_before_the_one_removed);
+
+    /**
+    * RemoveLeaf - remove leaf
+    * @param leaf_to_remove - leaf to be removed
+    */
+
     void RemoveLeaf(Node* leaf_to_remove);
+
+    /**
+     * RemoveOnlyOneSon - remove when its the case of only one son of the
+     *                      node to remove
+     * @param only_one_son - the node with only one son
+     * @param son - the son
+     */
+
     void RemoveOnlyOneSon(Node* only_one_son, Node* son);
+
+    /**
+     * RollSubTree - roll the subtree with the fitting roll
+     * @param root - the root to check from so on for a roll
+     * @return root to roll the subtree
+     */
+
     Node* RollSubTree(Node* root);
+
+    /**
+     * Abs - get absolute number
+     * @param number - given number
+     * @return absolute number
+     */
+
     static int Abs(int number){return number < 0 ? number*-1 : number;};
+
+    /**
+     * LLRoll - Left Left Roll the tree
+     * @param root root of the tree
+     * @return the new root after the roll
+     */
+
     Node* LLRoll(Node* root);
+
+    /**
+     * LRRoll - Left Right Roll the tree
+     * @param root root of the tree
+     * @return the new root after the roll
+     */
     Node* LRRoll(Node* root);
+
+    /**
+     * RRRoll - Right Right Roll the tree
+     * @param root root of the tree
+     * @return the new root after the roll
+     */
     Node* RRRoll(Node* root);
+
+    /**
+     * RLRoll - Right Left Roll the tree
+     * @param root root of the tree
+     * @return the new root after the roll
+
+     */
     Node* RLRoll(Node* root);
+
+    /**
+     * GetNodeHeight - get the node height.
+     * @param node - the data to delete
+     * @return the node's height.
+     */
+
     static int GetNodeHeight(Node* node);
+
+
+    /**
+     * SetParentNode - set the parent node.
+     * @param node_to_set_to - the node to set the parent
+     * @param new_parent_node - the parend node to set
+     */
+
     static void SetParentNode(Node* node_to_set_to,Node* new_parent_node);
 
 public:
     /**                    Exceptions                    */
     class DataNotFoundException : public std::exception {};
 
-    /** List's public functions */
+    /** Tree's public functions */
 
     /**
-    * List() - List constructor without arguments. The constructor initialize
+    * Tree() - Tree constructor without arguments. The constructor initialize
     *          the head and dummy head node.
     */
     Tree();
 
     /**
-    * ~List() - the destructor. destroy all the nodes in the list and the head
+    * ~Tree) - the destructor. destroy all the nodes in the tree and the head
     */
     ~Tree();
 
@@ -221,29 +327,34 @@ public:
     Tree& operator=(const Tree&)=delete;
 
     /**
-     * find - This function get head node and data to find and returns the node
+     * find - This function get the data to find and returns the node
      *        with the data
      *
-     * @param head - head to find from
+     * @param data_to_find - data_to_find
      * @return the node with the data
      */
 
     void* Find(const T& data_to_find);
 
     /**
-     * insert - insert new data after a given node
+     * insert - insert new node with given data to the tree
      *
      * @param node_to_insert_after - node to insert the data after
-     * @param data_to_insert - the data to insert
      */
     void* Insert(const T &data_to_insert);
 
     /**
      * remove - delete node after a given node
      *
-     * @param delete_after - node to delete the node after
+     * @param node_of_a_tree_to_deleted - node of the tree to be deleted
      */
     void Remove(void* node_of_a_tree_to_deleted);
+
+    /**
+     * GetNodeData - get data from given node
+     *
+     * @param node - given node
+     */
 
     const T& GetNodeData(void* node) {return ((Node*)node)->GetNodeData();};
 
@@ -252,12 +363,13 @@ public:
      *
      * @param data_to_delete - the data to delete
      */
+
     void RemoveByData(const T& data_to_delete) ;
 
     /**
-    * getLength - return the list length
+    * getSize - return the tree length (number of given nodes)
     *
-    * @return the list length
+    * @return the tree size
     */
     int GetSize() const{return this->size;}
 
@@ -267,7 +379,7 @@ public:
  * Tree() - Tree constructor without arguments. The constructor initialize
  *         the head and dummy head node.
  *
- * @tparam T - the class of the elements in the list
+ * @tparam T - the class of the elements in the tree
  */
 template <class T>
 Tree<T>::Tree() : size(0) {
@@ -275,9 +387,9 @@ Tree<T>::Tree() : size(0) {
 }
 
 /**
- * ~List() - the destructor. destroy all the nodes in the list and the head
+ * ~Tree() - the destructor. destroy all the nodes in the tree and the head
  *
- * @tparam T - the class of the elements in the list
+ * @tparam T - the class of the elements in the tree
  */
     template <class T>
     Tree<T>::~Tree() {
@@ -285,10 +397,9 @@ Tree<T>::Tree() : size(0) {
 }
 
 /**
- * find - This function get head node and data to find and returns the node
- *        with the data
+ * find - this function find node using FindInSubTree
  *
- * @param head - head to find from
+ * @param head - data to find
  * @return the node with the data
  */
  template <class T>
@@ -327,7 +438,6 @@ void* Tree<T>::FindInSubTree(const T& data_to_find, Node* node){
 /**
  * insert - insert new data after a given node
  *
- * @param node_to_insert_after - node to insert the data
  * @param data_to_insert - the data to insert
  */
 template <class T>
@@ -399,6 +509,12 @@ template <class T>
      return node_to_insert;
 }
 
+/**
+ * RollSubTree - roll the subtree with the fitting roll
+ * @param root - the root to check from so on for a roll
+ * @return root to roll the subtree
+ */
+
 template <class T>
 typename  Tree<T>::Node* Tree<T>::RollSubTree(Node* root) {
     if(root->GetBalance()==LEFT_TREE_VIOLATED){
@@ -415,6 +531,12 @@ typename  Tree<T>::Node* Tree<T>::RollSubTree(Node* root) {
         }
     }
 }
+
+/**
+ * LLRoll - Left Left Roll the tree
+ * @param root root of the tree
+ * @return the new root after the roll
+ */
 
 template <class T>
 typename  Tree<T>::Node* Tree<T>::LLRoll(Node* root){
@@ -458,6 +580,12 @@ typename  Tree<T>::Node* Tree<T>::LLRoll(Node* root){
 
     return A;
 }
+
+/**
+ * LRRoll - Left Right Roll the tree
+ * @param root - root of the tree
+ * @return the new root after the roll
+ */
 
 template <class T>
 typename  Tree<T>::Node* Tree<T>::LRRoll(Node* root){
@@ -511,6 +639,12 @@ typename  Tree<T>::Node* Tree<T>::LRRoll(Node* root){
     return B;
 }
 
+/**
+ * RRRoll - Right Right Roll the tree
+ * @param root - root of the tree
+ * @return the new root after the roll
+ */
+
 template <class T>
 typename  Tree<T>::Node* Tree<T>::RRRoll(Node* root){
 
@@ -553,6 +687,12 @@ typename  Tree<T>::Node* Tree<T>::RRRoll(Node* root){
 
     return A;
 }
+
+/**
+ * RRRoll - Right Left Roll the tree
+ * @param root - root of the tree
+ * @return the new root after the roll
+ */
 
 template <class T>
 typename  Tree<T>::Node* Tree<T>::RLRoll(Node* root){
@@ -606,6 +746,12 @@ typename  Tree<T>::Node* Tree<T>::RLRoll(Node* root){
     return B;
 }
 
+/**
+ * BalanceFactorViolated - Balance factor violated
+ * @param root - root of the tree
+ * @return  true if the tree it need to rolled, false else
+ */
+
 
 template <class T>
 bool Tree<T>::BalanceFactorViolated(Node* root) {
@@ -613,7 +759,7 @@ bool Tree<T>::BalanceFactorViolated(Node* root) {
 }
 
 /**
- * delete_after - delete node after a given node
+ * Remove - delete node after a given node
  *
  * @param delete_after - node to delete the node after
  */
@@ -642,6 +788,14 @@ void Tree<T>::Remove(void *node_of_a_tree_to_deleted) {
 
 }
 
+
+/**
+ * RemoveNode - Remove Node
+ * @param node_to_remove - node to remove
+ * @return  node_after_the_one_removed - the node after the one removed
+ *                                       to the way to the root
+ */
+
 template<class T>
 typename  Tree<T>::Node* Tree<T>::RemoveNode(Node* node_to_remove){
     Node* node_after_the_one_removed;
@@ -657,6 +811,11 @@ typename  Tree<T>::Node* Tree<T>::RemoveNode(Node* node_to_remove){
     return node_after_the_one_removed;
 }
 
+/**
+ * UpdateNodeHeight - update node height of a node on the tree
+ * @param node_to_update - node to update
+ */
+
 template<class T>
 void Tree<T>::UpdateNodeHeight(Node* node_to_update){
     if(GetNodeHeight(node_to_update->GetRightNode()) >
@@ -668,6 +827,12 @@ void Tree<T>::UpdateNodeHeight(Node* node_to_update){
                                   +1);
     }
 }
+
+/**
+ * SwitchNodesPointers - switch between nodes pointers
+ * @param node1 - node one
+ * @param node2 - node two
+ */
 
 template<class T>
 void Tree<T>::SwitchNodesPointers(Node* node1,Node* node2){
@@ -706,6 +871,14 @@ void Tree<T>::SwitchNodesPointers(Node* node1,Node* node2){
     node2->SetHeight(temp);
 }
 
+/**
+ * RemoveOneOrLessSons - remove node when its case of one or less sons to
+ *                       the node to be removed
+ * @param node_to_remove - node to remove
+ * @param node_before_the_one_removed - node before the one to be removed
+ *                                      (the way to the leaf)
+ */
+
 template<class T>
 bool Tree<T>::RemoveOneOrLessSons(Node* node_to_remove,
                               Node** node_before_the_one_removed){
@@ -732,6 +905,12 @@ bool Tree<T>::RemoveOneOrLessSons(Node* node_to_remove,
     return false;
 }
 
+
+/**
+ * RemoveLeaf - remove leaf
+ * @param leaf_to_remove - leaf to be removed
+ */
+
 template<class T>
 void Tree<T>::RemoveLeaf(Tree<T>::Node *leaf_to_remove) {
 
@@ -749,6 +928,14 @@ void Tree<T>::RemoveLeaf(Tree<T>::Node *leaf_to_remove) {
         delete leaf_to_remove;
     }
 }
+
+
+/**
+ * RemoveOnlyOneSon - remove when its the case of only one son of the
+ *                      node to remove
+ * @param only_one_son - the node with only one son
+ * @param son - the son
+ */
 
 template<class T>
 void Tree<T>::RemoveOnlyOneSon(Node* only_one_son, Node* son){
@@ -835,11 +1022,23 @@ void Tree<T>::RemoveByData(const T &data_to_delete) {
     this->Remove(node_to_delete);
 }
 
+/**
+ * GetNodeHeight - get the node height.
+ * @param node - the data to delete
+ * @return the node's height.
+ */
+
 template<class T>
 int Tree<T>::GetNodeHeight(Node* node){
     return node == nullptr ? Tree<T>::Node::nullptr_height : node->GetHeight();
 }
 
+
+/**
+ * SetParentNode - set the parent node.
+ * @param node_to_set_to - the node to set the parent
+ * @param new_parent_node - the parend node to set
+ */
 template<class T>
 void Tree<T>::SetParentNode(Node* node_to_set_to,Node* new_parent_node){
     if(node_to_set_to == nullptr){
