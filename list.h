@@ -165,13 +165,6 @@ public:
     void* ListGetFirst() const{return this->head->GetNextNode();}
 
     /**
-    * ListGetLast - this function return the tail of the list
-    *
-    * @return the tail node
-    */
-    void* ListGetLast() const{return this->tail;}
-
-    /**
      * ListGetNextNode - this function get node and returns the next node
      *
      * @param current_node - current node
