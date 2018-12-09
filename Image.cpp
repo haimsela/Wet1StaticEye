@@ -49,7 +49,7 @@ void Image::AddLabel(int segment_id,int label){
     }
 
     this->segments_array[segment_id]=label;
-    this->uninitialized_segments.RemoveByData(segment_id);
+    this->uninitialized_segments->RemoveByData(segment_id);
 }
 
 /**
@@ -89,7 +89,7 @@ void Image::DeleteLabel(int segment_id){
         throw Failure();
     }
 
-    this->uninitialized_segments.InsertFirst(segment_id);
+    this->uninitialized_segments->InsertFirst(segment_id);
     this->segments_array[segment_id]=UNINITIALIZED_SEGMENT;
 }
 
@@ -104,14 +104,14 @@ void Image::DeleteLabel(int segment_id){
  */
 int Image::GetAllUnLabeledSegments(int **segments){
  *segments = (int*)malloc(sizeof(**segments)*
-                                   (this->uninitialized_segments.GetLength()));
+                                   (this->uninitialized_segments->GetLength()));
 
     FillUnlabeledArrayUsingTheUnlabeledList(
-                                   &this->uninitialized_segments,
+                                   this->uninitialized_segments,
                                    *segments,
-                                   this->uninitialized_segments.GetLength());
+                                   this->uninitialized_segments->GetLength());
 
- return this->uninitialized_segments.GetLength();
+ return this->uninitialized_segments->GetLength();
 }
 
 /**
