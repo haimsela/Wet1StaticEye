@@ -3,7 +3,6 @@ project(Wet1StaticEye)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Wet1StaticEye exceptions.h testMacros.h tree.h library1.h
-        tree.cpp mapElement.h)
+add_executable(Wet1StaticEye library2.h list.h main2.cpp mapElement.h MapTree.h MapList.h tree.h Image.cpp Image.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -Wall -Werror -pedantic-errors")

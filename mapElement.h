@@ -2,27 +2,32 @@
 #define WETONE_MAPELEMENT_H
 
 /** MapElement class and his fields */
+/**
+ * @tparam T - the class of the key
+ * @tparam K - the class of the value
+ *
+ */
+template<class T,class K>
 class MapElement {
 private:
 
     /** MapElement's private fields */
-    int key;
-    void* value;
+    T key;
+    K value;
 public:
     /** MapElement's public functions */
 
     /**
-    * MapElement() - Node constructor without arguments. Ths use to make
-    *          dummy node.
+    * MapElement() - Node constructor without arguments default.
     */
-    explicit MapElement() : value(nullptr) {}
+    explicit MapElement() = default ;
 
 
     /** Node's public functions */
     /**
     * MapElement() - MapElement constructor
     */
-    explicit MapElement(int key,void* value) : key(key),value(value) {}
+    explicit MapElement(T key,K value) : key(key),value(value) {}
 
     /**
     * ~Node() - the destructor. destroy the Node
@@ -30,10 +35,12 @@ public:
     ~MapElement() = default;
 
     /**
-     * delete copy c'tor
+     * MapElement(const MapElement & map) - copy destructor dependent on T,K
+     *                                      operator=.
+     * @param map_element map element to copy
      */
-    MapElement(const MapElement & map){this->key=map.key;
-                                       this->value=map.value;}
+    MapElement(const MapElement & map_element){this->key=map_element.key;
+        this->value=map_element.value;}
 
     /**
      * delete operator =
@@ -45,36 +52,39 @@ public:
      *
      * @return the element key
      */
-    int getKey() const{return this->key;}
+    const T& getKey() const{return this->key;}
 
     /**
      * getValue - return the element value
      *
      * @return the element value
      */
-    void* getValue() const{return this->value;}
+    const K& getValue() const{return this->value;}
 
     /**
-     * setKey - set the element key to new value
+     * setKey - set the element key to new value. dependent in T operator=
      */
-    void setKey(int key){this->key=key;}
+    void setKey(T key){this->key=key;}
 
     /**
-     * setKey - set the element value
+     * setKey - set the element value. dependent in K operator=
      */
-    void setValue(void* value){this->value=value;}
+    void setValue(K value){this->value=value;}
 
 };
 
 /**
- * bool operator== comparison operator by mapElement's key
+ * bool operator== comparison operator by mapElement's key. dependent on T
+ *                 operator=
  *
  * @param map_element1 - first mapElement to compare
  * @param map_element2  - second mapElement to compare
  * @return if the mapElements share the same key - true
  *         else - false
  */
-inline bool operator==(const MapElement& map_element1,const MapElement& map_element2){
+template<class T,class K>
+inline bool operator==(const MapElement<T,K>& map_element1,
+                       const MapElement<T,K>& map_element2){
     return map_element1.getKey()==map_element2.getKey();
 }
 
@@ -86,19 +96,24 @@ inline bool operator==(const MapElement& map_element1,const MapElement& map_elem
  * @return if the mapElements share the same key - true
  *         else - false
  */
-inline bool operator!=(const MapElement& map_element1,const MapElement& map_element2){
+template<class T,class K>
+inline bool operator!=(const MapElement<T,K>& map_element1,
+                       const MapElement<T,K>& map_element2){
     return !(map_element1==map_element2);
 }
 
 /**
- * bool operator> comparison operator by mapElement's key
+ * bool operator> comparison operator by mapElement's key. dependent on T
+ *                 operator>
  *
  * @param map_element1 - first mapElement to compare
  * @param map_element2  - second mapElement to compare
  * @return if the mapElements 1 has greater key - true
  *         else - false
  */
-inline bool operator>(const MapElement& map_element1,const MapElement& map_element2){
+template<class T,class K>
+inline bool operator>(const MapElement<T,K>& map_element1,
+                      const MapElement<T,K>& map_element2){
     return map_element1.getKey()>map_element2.getKey();
 }
 
@@ -110,7 +125,9 @@ inline bool operator>(const MapElement& map_element1,const MapElement& map_eleme
  * @return if the mapElements 2 has greater key - true
  *         else - false
  */
-inline bool operator<(const MapElement& map_element1,const MapElement& map_element2){
+template <class T,class K>
+inline bool operator<(const MapElement<T,K>& map_element1,
+                      const MapElement<T,K>& map_element2){
     return map_element2>map_element1;
 }
 
@@ -122,7 +139,9 @@ inline bool operator<(const MapElement& map_element1,const MapElement& map_eleme
  * @return if the mapElements 1 has greater or equals key - true
  *         else - false
  */
-inline bool operator>=(const MapElement& map_element1,const MapElement& map_element2){
+template<class T,class K>
+inline bool operator>=(const MapElement<T,K>& map_element1,
+                       const MapElement<T,K>& map_element2){
     return !(map_element2>map_element1);
 }
 
@@ -134,7 +153,9 @@ inline bool operator>=(const MapElement& map_element1,const MapElement& map_elem
  * @return if the mapElements 2 has greater or equals key - true
  *         else - false
  */
-inline bool operator<=(const MapElement& map_element1,const MapElement& map_element2){
+template<class T,class K>
+inline bool operator<=(const MapElement<T,K>& map_element1,
+                       const MapElement<T,K>& map_element2){
     return map_element2>=map_element1;
 }
 

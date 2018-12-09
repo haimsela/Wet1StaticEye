@@ -6,7 +6,7 @@
 
 using namespace std;
 
-/** List class and his fields */
+/** Tree class and his fields */
 /**
  * @tparam T - the class of the elements in the list
  */
@@ -14,6 +14,7 @@ template <class T>
 class Tree {
 private:
 
+    /** Node class and his fields */
     class Node {
     private:
 
@@ -30,8 +31,7 @@ private:
 
         /** Node's public functions */
         /**
-        * Node() - Node constructor without arguments. Ths use to make
-        *          dummy node.
+        * Node() - Node constructor without arguments.
         */
         Node():right_node(nullptr),left_node(nullptr),parent_node(nullptr),
                height(initial_height){}
@@ -62,67 +62,130 @@ private:
 
         /**
         * GetNodeData() - Get the node data
+         *
         * @return the node data
         */
         const T& GetNodeData() { return this->data; }
 
         /**
-        * GetNextNode() - Get the next node
-        * @return the next node
+        * GetRightNode() - Get the right son node
+         *
+        * @return the right son node
         */
         Node* GetRightNode() { return this->right_node; }
 
 
         /**
-        * SetNextNode(Node* new_next)() - set the next node for new value
-        */
-        void SetRightNode(Node* new_next){ this->right_node=new_next; }
+         * SetNextNode(Node* new_next)() - set the right son node for new value
+         *
+         * @param new_right - the new right node
+         */
+        void SetRightNode(Node* new_right){ this->right_node=new_right; }
 
         /**
-        * GetNextNode() - Get the next node
-        * @return the next node
+        * GetLeftNode() - Get the left son node
+         *
+        * @return the left son node
         */
         Node* GetLeftNode() { return this->left_node; }
 
         /**
-        * SetNextNode(Node* new_next)() - set the next node for new value
-        */
-        void SetLeftNode (Node* new_next){ this->left_node=new_next; }
+         * SetNextNode(Node* new_next)() - set the right son node for new value
+         *
+         * @param new_left - the new left node
+         */
+        void SetLeftNode (Node* new_left){ this->left_node=new_left; }
 
+        /**
+         * GetParentNode - get the parent node
+         *
+         * @return the parent node
+         */
         Node* GetParentNode(){ return this->parent_node;};
 
+        /**
+         * SetParentNode - set the parent node to new value
+         *
+         * @param parent_node - thee new parent node
+         */
         void SetParentNode(Node* parent_node){this->parent_node =
                                                                 parent_node;}
 
+        /**
+         * GetHeight - get the node's height
+         *
+         * @return the node height
+         */
         int GetHeight() { return this->height; }
 
+        /**
+         * SetHeight - set the node's height to new value.
+         *
+         * @param height - the new height
+         */
         void SetHeight(int height) { this->height=height; }
 
+        /**
+         * GetBalance - get the node's balance. the balance is the left node's
+         *              height minus the right node's height.
+         *
+         * @return the node's balance
+         */
         int GetBalance();
     };
 
 
-    /** List's private fields */
+    /** Tree's private fields */
     Node* root;
     int size;
-    static const int maximum_abs_valid_balance_factor = 1;
-    static const int left_tree_violated=2;
+    static const int MAXIMUM_ABS_VALID_BALANCE_FACTOR = 1;
+    static const int LEFT_TREE_VIOLATED=2;
 
-    /** List's private functions */
-    void MakeEmpty(Node* node);
-    void* FindInSubTree(const T& data_to_find, Node* node);
-    Node* GetNextInOrder(Node* current_node);
-    Node* insert_new_node(const T &data_to_insert);
-    Node* remove_node(Node* node_to_remove);
+    /** Tree's private functions */
+
+    /**
+     * MakeEmpty - this function recursively delete all the nodes in the tree
+     *
+     * @param node - the root off the sub tree to delete
+     */
+    static void MakeEmpty(Node* node);
+
+    /**
+     * FindInSubTree - this function find node with given data recursively
+     *
+     * @param data_to_find - the data to find in the tree
+     * @param node - the root off the sub tree to delete
+     * @return the node with the given data
+     */
+    static void* FindInSubTree(const T& data_to_find, Node* node);
+
+    /**
+     * GetNextInOrder - get node and returns the next node in order if we
+     *                  return the value of the tree in the inorder method
+     *
+     * @param current_node - the node to look the one after
+     * @return the next node in order
+     */
+    static Node* GetNextInOrder(Node* current_node);
+
+    /**
+     * InsertNewNode - get data and insert new node with the data given to the
+     *                 tree
+     *
+     * @param data_to_insert - the data to insert to the tree
+     * @return the node new node that was created
+     */
+    Node* InsertNewNode(const T &data_to_insert);
+    Node* RemoveNode(Node* node_to_remove);
     void UpdateNodeHeight(Node* node_to_update);
     bool BalanceFactorViolated(Node* root);
     void SwitchNodesPointers(Node* node1,Node* node2);
     bool RemoveOneOrLessSons(Node* node_to_remove,
                              Node** node_before_the_one_removed);
-    void remove_leaf(Node* leaf_to_remove);
-    void remove_only_one_son(Node* only_one_son, Node* son);
+    void RemoveLeaf(Node* leaf_to_remove);
+    void RemoveOnlyOneSon(Node* only_one_son, Node* son);
     Node* RollSubTree(Node* root);
-    static int abs(int number){return number < 0 ? number*-1 : number;};
+    static int Abs(int number){return number < 0 ? number*-1 : number;};
     Node* LLRoll(Node* root);
     Node* LRRoll(Node* root);
     Node* RRRoll(Node* root);
@@ -165,7 +228,7 @@ public:
      * @return the node with the data
      */
 
-    void* find(const T& data_to_find);
+    void* Find(const T& data_to_find);
 
     /**
      * insert - insert new data after a given node
@@ -173,14 +236,14 @@ public:
      * @param node_to_insert_after - node to insert the data after
      * @param data_to_insert - the data to insert
      */
-    void* insert(const T &data_to_insert);
+    void* Insert(const T &data_to_insert);
 
     /**
      * remove - delete node after a given node
      *
      * @param delete_after - node to delete the node after
      */
-    void remove(void* node_of_a_tree_to_deleted);
+    void Remove(void* node_of_a_tree_to_deleted);
 
     const T& GetNodeData(void* node) {return ((Node*)node)->GetNodeData();};
 
@@ -189,7 +252,7 @@ public:
      *
      * @param data_to_delete - the data to delete
      */
-    void remove_by_data(const T& data_to_delete) ;
+    void RemoveByData(const T& data_to_delete) ;
 
     /**
     * getLength - return the list length
@@ -229,7 +292,7 @@ Tree<T>::Tree() : size(0) {
  * @return the node with the data
  */
  template <class T>
-void* Tree<T>::find(const T& data_to_find){
+void* Tree<T>::Find(const T& data_to_find){
     void* node_with_date = FindInSubTree(data_to_find,root);
 
     if(node_with_date == nullptr){
@@ -238,6 +301,13 @@ void* Tree<T>::find(const T& data_to_find){
     return node_with_date;
 }
 
+/**
+ * FindInSubTree - this function find node with given data recursively
+ *
+ * @param data_to_find - the data to find in the tree
+ * @param node - the root off the sub tree to delete
+ * @return the node with the given data
+ */
 template <class T>
 void* Tree<T>::FindInSubTree(const T& data_to_find, Node* node){
     if(node==nullptr) {
@@ -247,7 +317,7 @@ void* Tree<T>::FindInSubTree(const T& data_to_find, Node* node){
     if(node->GetNodeData()==data_to_find) {
         return (void*)node;
     }
-    else if(node->GetNodeData()<data_to_find){
+    else if(node->GetNodeData()>data_to_find){
         return FindInSubTree(data_to_find,node->GetLeftNode());
     } else {
         return FindInSubTree(data_to_find,node->GetRightNode());
@@ -261,8 +331,10 @@ void* Tree<T>::FindInSubTree(const T& data_to_find, Node* node){
  * @param data_to_insert - the data to insert
  */
 template <class T>
-void* Tree<T>::insert(const T &data_to_insert) {
-    Node* new_node = this->insert_new_node(data_to_insert);
+void* Tree<T>::Insert(const T &data_to_insert) {
+    Node* new_node = this->InsertNewNode(data_to_insert);
+    this->size++;
+
     Node* parent_node, *current_node;
 
     current_node = new_node;
@@ -271,7 +343,6 @@ void* Tree<T>::insert(const T &data_to_insert) {
         parent_node = current_node->GetParentNode();
 
         if(parent_node->GetHeight() >= current_node->GetHeight() + 1){
-            this->size++;
             return (void*)new_node;
         }
 
@@ -279,20 +350,24 @@ void* Tree<T>::insert(const T &data_to_insert) {
 
         if(BalanceFactorViolated(parent_node)){
             this->RollSubTree(parent_node);
-            this->size++;
             return (void*)new_node;
         }
 
         current_node = parent_node;
     }
 
-    this->size++;
     return new_node;
 }
 
- /** List's private functions */
- template <class T>
- typename  Tree<T>::Node* Tree<T>::insert_new_node(const T &data_to_insert) {
+/**
+ * InsertNewNode - get data and insert new node with the data given to the
+ *                 tree
+ *
+ * @param data_to_insert - the data to insert to the tree
+ * @return the node new node that was created
+ */
+template <class T>
+ typename  Tree<T>::Node* Tree<T>::InsertNewNode(const T &data_to_insert) {
      if(this->root == nullptr){
          Node *node_to_insert = new Node(data_to_insert, nullptr);
          this->root=node_to_insert;
@@ -307,7 +382,7 @@ void* Tree<T>::insert(const T &data_to_insert) {
      do {
          parent_node = current_node;
 
-         if (current_node->GetNodeData() < data_to_insert) {
+         if (current_node->GetNodeData() > data_to_insert) {
              current_node = parent_node->GetLeftNode();
              if(current_node == nullptr){
                  parent_node->SetLeftNode(node_to_insert);
@@ -326,7 +401,7 @@ void* Tree<T>::insert(const T &data_to_insert) {
 
 template <class T>
 typename  Tree<T>::Node* Tree<T>::RollSubTree(Node* root) {
-    if(root->GetBalance()==left_tree_violated){
+    if(root->GetBalance()==LEFT_TREE_VIOLATED){
         if(root->GetLeftNode()->GetBalance()>=0){
             return this->LLRoll(root);
         } else {
@@ -450,7 +525,7 @@ typename  Tree<T>::Node* Tree<T>::RRRoll(Node* root){
     Node *A,*B,*A_left;
 
     B = root;
-    A = B->GetLeftNode();
+    A = B->GetRightNode();
     A_left = A->GetLeftNode();
 
     if(B->GetParentNode()!=nullptr){
@@ -534,7 +609,7 @@ typename  Tree<T>::Node* Tree<T>::RLRoll(Node* root){
 
 template <class T>
 bool Tree<T>::BalanceFactorViolated(Node* root) {
-    return abs(root->GetBalance()) > maximum_abs_valid_balance_factor;
+    return Abs(root->GetBalance()) > MAXIMUM_ABS_VALID_BALANCE_FACTOR;
 }
 
 /**
@@ -543,9 +618,10 @@ bool Tree<T>::BalanceFactorViolated(Node* root) {
  * @param delete_after - node to delete the node after
  */
 template<class T>
-void Tree<T>::remove(void *node_of_a_tree_to_deleted) {
-    Node *node_after_the_one_removed = remove_node((Node*)
+void Tree<T>::Remove(void *node_of_a_tree_to_deleted) {
+    Node *node_after_the_one_removed = RemoveNode((Node*)
                                                 node_of_a_tree_to_deleted);
+    this->size--;
 
     while(node_after_the_one_removed != nullptr){
         int height_before=node_after_the_one_removed->GetHeight();
@@ -557,7 +633,6 @@ void Tree<T>::remove(void *node_of_a_tree_to_deleted) {
         }
 
         if(height_before == node_after_the_one_removed->GetHeight()){
-            this->size--;
             return;
         }
 
@@ -565,11 +640,10 @@ void Tree<T>::remove(void *node_of_a_tree_to_deleted) {
                          node_after_the_one_removed->GetParentNode();
     }
 
-    this->size--;
 }
 
 template<class T>
-typename  Tree<T>::Node* Tree<T>::remove_node(Node* node_to_remove){
+typename  Tree<T>::Node* Tree<T>::RemoveNode(Node* node_to_remove){
     Node* node_after_the_one_removed;
 
     if(RemoveOneOrLessSons(node_to_remove,&node_after_the_one_removed)){
@@ -617,11 +691,15 @@ void Tree<T>::SwitchNodesPointers(Node* node1,Node* node2){
 
     temp_node = node1->GetLeftNode();
     node1->SetLeftNode(node2->GetLeftNode());
+    SetParentNode(node1->GetLeftNode(),node1);
     node2->SetLeftNode(temp_node);
+    SetParentNode(node2->GetLeftNode(),node1);
 
     temp_node = node1->GetRightNode();
     node1->SetRightNode(node2->GetRightNode());
+    SetParentNode(node1->GetRightNode(),node1);
     node2->SetRightNode(temp_node);
+    SetParentNode(node2->GetRightNode(),node2);
 
     int temp = node1->GetHeight();
     node1->SetHeight(node2->GetHeight());
@@ -636,26 +714,26 @@ bool Tree<T>::RemoveOneOrLessSons(Node* node_to_remove,
     if(node_to_remove->GetRightNode() == nullptr
        && node_to_remove->GetLeftNode() == nullptr){
 
-        remove_leaf(node_to_remove);
+        RemoveLeaf(node_to_remove);
         return true;
 
     } else if ( node_to_remove->GetRightNode() == nullptr
                 && node_to_remove->GetLeftNode() != nullptr ) {
 
-        remove_only_one_son(node_to_remove, node_to_remove->GetLeftNode());
+        RemoveOnlyOneSon(node_to_remove, node_to_remove->GetLeftNode());
         return true;
 
     } else if ( node_to_remove->GetRightNode() != nullptr
                 && node_to_remove->GetLeftNode() == nullptr ) {
 
-        remove_only_one_son(node_to_remove, node_to_remove->GetRightNode());
+        RemoveOnlyOneSon(node_to_remove, node_to_remove->GetRightNode());
         return true;
     }
     return false;
 }
 
 template<class T>
-void Tree<T>::remove_leaf(Node* leaf_to_remove){
+void Tree<T>::RemoveLeaf(Tree<T>::Node *leaf_to_remove) {
 
     if(leaf_to_remove->GetParentNode()== nullptr){
         this->root= nullptr;
@@ -673,7 +751,7 @@ void Tree<T>::remove_leaf(Node* leaf_to_remove){
 }
 
 template<class T>
-void Tree<T>::remove_only_one_son(Node* only_one_son, Node* son){
+void Tree<T>::RemoveOnlyOneSon(Node* only_one_son, Node* son){
 
     if(only_one_son->GetParentNode()== nullptr){
         this->root= son;
@@ -692,6 +770,13 @@ void Tree<T>::remove_only_one_son(Node* only_one_son, Node* son){
     delete only_one_son;
 }
 
+/**
+ * GetNextInOrder - get node and returns the next node in order if we
+ *                  return the value of the tree in the inorder method
+ *
+ * @param current_node - the node to look the one after
+ * @return the next node in order
+ */
 template<class T>
 typename Tree<T>::Node* Tree<T>::GetNextInOrder(Node* current_node){
     if(current_node == nullptr){
@@ -711,6 +796,11 @@ typename Tree<T>::Node* Tree<T>::GetNextInOrder(Node* current_node){
     return next_inorder;
 }
 
+/**
+ * MakeEmpty - this function recursively delete all the nodes in the tree
+ *
+ * @param node the root off sun node to delete
+ */
 template<class T>
 void Tree<T>::MakeEmpty(Node* node) {
     if(node== nullptr){
@@ -721,6 +811,12 @@ void Tree<T>::MakeEmpty(Node* node) {
     delete node;
 }
 
+/**
+ * GetBalance - get the node's balance. the balance is the left node's
+ *              height minus the right node's height.
+ *
+ * @return the node's balance
+ */
 template <class T>
 int Tree<T>::Node::GetBalance() {
 
@@ -734,9 +830,9 @@ int Tree<T>::Node::GetBalance() {
  * @param data_to_delete - the data to delete
  */
 template<class T>
-void Tree<T>::remove_by_data(const T& data_to_delete) {
-    void* node_to_delete = this->find(data_to_delete);
-    this->remove(node_to_delete);
+void Tree<T>::RemoveByData(const T &data_to_delete) {
+    void* node_to_delete = this->Find(data_to_delete);
+    this->Remove(node_to_delete);
 }
 
 template<class T>

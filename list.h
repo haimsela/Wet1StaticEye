@@ -49,34 +49,41 @@ private:
 
 
         /**
-        * getNodeData() - Get the node data
+        * GetNodeData() - Get the node data
+        *
         * @return the node data
         */
-        T getNodeData() const&{ return this->data; };
+        const T& GetNodeData() { return this->data; };
 
         /**
         * getNextNode() - Get the next node
+        *
         * @return the next node
         */
-        Node *getNextNode() const{ return this->next_node; };
+        Node *GetNextNode() { return this->next_node; };
 
         /**
-        * getPreviousNode() - Get the previous node
+        * GetPreviousNode() - Get the previous node
+        *
         * @return the previous node
         */
-        Node *getPreviousNode() const{ return this->previous_node; };
+        Node *GetPreviousNode() { return this->previous_node; };
 
 
         /**
-        * setNextNode - set the next node for new value
-        */
-        void setNextNode(Node *new_next) { this->next_node = new_next; };
+         * SetNextNode - set the next node for new value
+         *
+         * @param new_next - the new next node
+         */
+        void SetNextNode(Node *new_next) { this->next_node = new_next; };
 
         /**
-        * setPreviousNode - set the previous node for new value
-        */
-        void setPreviousNode(Node *new_next) {
-                                          this->previous_node = new_next; };
+         * SetPreviousNode - set the previous node for new value
+         *
+         * @param new_previous the new previous node
+         */
+        void SetPreviousNode(Node *new_previous) {
+                                          this->previous_node = new_previous; };
 
     };
 
@@ -110,76 +117,76 @@ public:
     /**
      * delete operator =
      */
-    List &operator=(const List &)=delete;
+    List &operator=(const List &)= delete;
 
     /**
-     * find - This function get head node and data to find and returns the node
+     * Find - This function get head node and data to find and returns the node
      *        with the data
      *
      * @param head - head to find from
      * @return the node with the data
      */
-    void* find(const T &data_to_find);
+    void* Find(const T &data_to_find);
 
     /**
-     * insert_first - insert new data as the first in the list
+     * InsertFirst - insert new data as the first in the list
      *
      * @param data_to_insert - the data to insert
      */
-    void* insert_first(const T &data_to_insert);
+    void* InsertFirst(const T &data_to_insert);
 
     /**
-     * insert - insert new data after a given node
+     * Insert - insert new data after a given node
      *
      * @param node_to_insert_after - node to insert the data after
      * @param data_to_insert - the data to insert
      */
-    void* insert(void *node_to_insert_after, const T &data_to_insert);
+    void* Insert(void *node_to_insert_after, const T &data_to_insert);
 
     /**
-     * remove - delete given node
+     * Remove - delete given node
      *
      * @param node_to_delete - the node to delete
      */
-    void remove(void *node_to_delete) ;
+    void Remove(void *node_to_delete) ;
 
     /**
-     * remove_by_data - delete node with given data
+     * RemoveByData - delete node with given data
      *
      * @param data_to_delete - the data to delete
      */
-    void remove_by_data(const T& data_to_delete) ;
+    void RemoveByData(const T& data_to_delete) ;
 
     /**
-     * listGetFirst - this function return the first non dummy node
+     * ListGetFirst - this function return the first non dummy node
      *
      * @return the first non dummy node
      */
-    void* listGetFirst() const{return this->head->getNextNode();};
+    void* ListGetFirst() const{return this->head->GetNextNode();}
 
     /**
-     * listGetNextNode - this function get node and returns the next node
+     * ListGetNextNode - this function get node and returns the next node
      *
      * @param current_node - current node
      * @return the next node
      */
-    void* listGetNextNode(void* current_node) const{
-                                return ((Node*)current_node)->getNextNode();};
+    void* ListGetNextNode(void* current_node) const{
+                                return ((Node*)current_node)->GetNextNode();}
 
     /**
-    * getNodeData - get node and returns the data of the node
+    * GetNodeData - get node and returns the data of the node
     *
     * @param current_node - current node
     * @return the next node
     */
-    T getNodeData(void* node) const{return ((Node*)node)->getNodeData();};
+    const T& GetNodeData(void* node) {return ((Node*)node)->GetNodeData();}
 
     /**
-     * getLength - return the list length
+     * GetLength - return the list length
      *
      * @return the list length
      */
-    int getLength() const{return this->length;}
+    int GetLength() const{return this->length;}
 
 };
 
@@ -194,8 +201,8 @@ List<T>::List() :
         length(0) {
     this->head = new Node();//dummy node
     this->tail = new Node();//dummy node
-    this->head->setNextNode(this->tail);
-    this->tail->setPreviousNode(this->head);
+    this->head->SetNextNode(this->tail);
+    this->tail->SetPreviousNode(this->head);
 }
 
 /**
@@ -206,8 +213,8 @@ List<T>::List() :
 template<class T>
 List<T>::~List() {
 
-    while (this->head->getNextNode() != this->tail) {
-        this->remove(this->head->getNextNode());
+    while (this->head->GetNextNode() != this->tail) {
+        this->Remove(this->head->GetNextNode());
     }
 
     delete head;
@@ -215,19 +222,19 @@ List<T>::~List() {
 }
 
 /**
- * find - This function get head node and data to find and returns the node
+ * Find - This function get head node and data to find and returns the node
  *        with the data
  *
  * @param head - head to find from
  * @return the node with the data
  */
 template<class T>
-void* List<T>::find(const T &data_to_find) {
-    Node *current_node = this->head->getNextNode();
+void* List<T>::Find(const T &data_to_find) {
+    Node *current_node = this->head->GetNextNode();
 
     while (current_node != this->tail &&
-           current_node->getNodeData() != data_to_find) {
-        current_node = current_node->getNextNode();
+           current_node->GetNodeData() != data_to_find) {
+        current_node = current_node->GetNextNode();
     }
 
     if (current_node == this->tail){
@@ -238,53 +245,53 @@ void* List<T>::find(const T &data_to_find) {
 }
 
 /**
- * insert - insert new data after a given node
+ * Insert - insert new data after a given node
  *
  * @param node_to_insert_after - node to insert the data after
  * @param data_to_insert - the data to insert
  */
 template<class T>
-void* List<T>::insert(void *node_to_insert_after, const T &data_to_insert) {
+void* List<T>::Insert(void *node_to_insert_after, const T &data_to_insert) {
     Node *new_node;
     if (node_to_insert_after == NULL) {
         return nullptr;
     }
     new_node = new Node(data_to_insert);
 
-    new_node->setNextNode(((Node*)node_to_insert_after)->getNextNode());
-    ((Node*)node_to_insert_after)->getNextNode()->setPreviousNode(new_node);
+    new_node->SetNextNode(((Node*)node_to_insert_after)->GetNextNode());
+    ((Node*)node_to_insert_after)->GetNextNode()->SetPreviousNode(new_node);
 
-    ((Node*)node_to_insert_after)->setNextNode(new_node);
-    new_node->setPreviousNode(((Node*)node_to_insert_after));
+    ((Node*)node_to_insert_after)->SetNextNode(new_node);
+    new_node->SetPreviousNode(((Node*)node_to_insert_after));
 
     this->length++;
     return new_node;
 }
 
 /**
- * insert_first - insert new data as the first in the list
+ * InsertFirst - insert new data as the first in the list
  *
  * @param data_to_insert - the data to insert
  */
 template<class T>
-void* List<T>::insert_first(const T &data_to_insert){
-    void* new_node = this->insert(this->head,data_to_insert);
+void* List<T>::InsertFirst(const T &data_to_insert){
+    void* new_node = this->Insert(this->head,data_to_insert);
     return new_node;
 }
 
 /**
- * remove - delete given node
+ * Remove - delete given node
  *
  * @param node_to_delete - the node to delete
  */
 template<class T>
-void List<T>::remove(void *node_to_delete) {
+void List<T>::Remove(void *node_to_delete) {
 
     Node *temp_node;
     temp_node = ((Node*)node_to_delete);
 
-    temp_node->getPreviousNode()->setNextNode(temp_node->getNextNode());
-    temp_node->getNextNode()->setPreviousNode(temp_node->getPreviousNode());
+    temp_node->GetPreviousNode()->SetNextNode(temp_node->GetNextNode());
+    temp_node->GetNextNode()->SetPreviousNode(temp_node->GetPreviousNode());
 
     delete temp_node;
 
@@ -292,14 +299,14 @@ void List<T>::remove(void *node_to_delete) {
 }
 
 /**
- * remove_by_data - delete node with given data
+ * RemoveByData - delete node with given data
  *
  * @param data_to_delete - the data to delete
  */
 template<class T>
-void List<T>::remove_by_data(const T& data_to_delete) {
-    void* node_to_delete = this->find(data_to_delete);
-    this->remove(node_to_delete);
+void List<T>::RemoveByData(const T &data_to_delete) {
+    void* node_to_delete = this->Find(data_to_delete);
+    this->Remove(node_to_delete);
 }
 
 #endif //WETONE_LIST_H
