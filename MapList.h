@@ -135,7 +135,7 @@ void* MapList<T,K>::Add(const T &key,const K &value){
 template<class T,class K>
 const K& MapList<T,K>::FindKey(const T &key){
     try {
-        MapElement<T,K> new_element(key,nullptr);
+        MapElement<T,K> new_element(key);
 
         void* node = this->map_list.Find(new_element);
         MapElement<T,K> element_searched = this->map_list.GetNodeData(node);
@@ -157,7 +157,7 @@ const K& MapList<T,K>::FindKey(const T &key){
 template<class T,class K>
 void MapList<T,K>::DeleteKey(const T &key){
     try {
-        MapElement<T, K> new_element(key, nullptr);
+        MapElement<T, K> new_element(key);
         this->map_list.RemoveByData(new_element);
     } catch (typename List<MapElement<T,K>>::DataNotFoundException&
     not_found ){
@@ -196,7 +196,7 @@ int MapList<T,K>::GetMapSize(){
  */
 template<class T,class K>
 bool MapList<T,K>::IsKeyExists(const T &key){
-    MapElement<T, K> new_element(key, nullptr);
+    MapElement<T,K> new_element(key);
     return this->map_list.IsDataExists(new_element);
 }
 

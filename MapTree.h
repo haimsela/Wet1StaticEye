@@ -137,7 +137,7 @@ void* MapTree<T,K>::Add(const T &key,const K &value){
 template<class T,class K>
 const K& MapTree<T,K>::FindKey(const T &key){
     try {
-        MapElement<T,K> new_element(key,nullptr);
+        MapElement<T,K> new_element(key);
 
         void* node = this->map_tree.Find(new_element);
         MapElement<T,K> element_searched = this->map_tree.GetNodeData(node);
@@ -159,7 +159,7 @@ const K& MapTree<T,K>::FindKey(const T &key){
 template<class T,class K>
 void MapTree<T,K>::DeleteKey(const T &key){
     try {
-        MapElement<T, K> new_element(key, nullptr);
+        MapElement<T, K> new_element(key);
         this->map_tree.RemoveByData(new_element);
     } catch (typename Tree<MapElement<T,K>>::DataNotFoundException&
     not_found ){
@@ -198,7 +198,7 @@ int MapTree<T,K>::GetMapSize(){
  */
 template<class T,class K>
 bool MapTree<T,K>::IsKeyExists(const T &key){
-    MapElement<T, K> new_element(key, nullptr);
+    MapElement<T, K> new_element(key);
     return this->map_tree.IsDataExists(new_element);
 }
 

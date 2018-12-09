@@ -30,6 +30,11 @@ public:
     explicit MapElement(T key,K value) : key(key),value(value) {}
 
     /**
+    * MapElement() - MapElement constructor
+    */
+    explicit MapElement(T key) : key(key) {}
+
+    /**
     * ~Node() - the destructor. destroy the Node
     */
     ~MapElement() = default;
