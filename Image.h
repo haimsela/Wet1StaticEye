@@ -90,6 +90,11 @@ public:
     class Failure : public std::exception {};
 
     /**
+     * Image() - the default constructor for no arguments
+     */
+    Image()=default;
+
+    /**
      * Image(int segments) - constructor that gets the number of segments in
      *                       the image and initialize the arrat and the list
      *
