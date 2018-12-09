@@ -21,6 +21,7 @@ private:
 public:
     /**                    Exceptions                    */
     class DataNotFoundException : public std::exception {};
+    class KeyAlreadyExists : public std::exception {};
 
     /** MapList's public functions */
 
@@ -90,6 +91,14 @@ public:
      */
     int GetMapSize();
 
+    /**
+     * IsKeyExists - The function check if key exists in the map
+     *
+     * @param key - key to check
+     * @return - true of if exists otherwise false
+     */
+    bool IsKeyExists(const T &key);
+
 };
 
 /**
@@ -105,8 +114,13 @@ public:
 template<class T,class K>
 void* MapList<T,K>::Add(const T &key,const K &value){
 
-        MapElement<T,K> new_element(key,value);
-        return this->map_list.InsertFirst(new_element);
+    if(IsKeyExists(key) ){
+        throw KeyAlreadyExists();
+    }
+
+    MapElement<T,K> new_element(key,value);
+
+    return this->map_list.InsertFirst(new_element);
 
 }
 
@@ -172,6 +186,18 @@ void MapList<T,K>::DeleteByPointer(void* node){
 template<class T,class K>
 int MapList<T,K>::GetMapSize(){
     return this->map_list.GetLength();
+}
+
+/**
+ * IsKeyExists - The function check if key exists in the map
+ *
+ * @param key - key to check
+ * @return - true of if exists otherwise false
+ */
+template<class T,class K>
+bool MapList<T,K>::IsKeyExists(const T &key){
+    MapElement<T, K> new_element(key, nullptr);
+    return this->map_list.IsDataExists(new_element);
 }
 
 #endif //WETONE_MAPLIST_H

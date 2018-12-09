@@ -3,11 +3,11 @@
 
 #include "list.h"
 
-/** Game class and his fields */
+/** Image class and his fields */
 class Image {
     int segments;
     int* segments_array;
-    List<int> uninitialized_segments;
+    List<int>* uninitialized_segments;
     static const int UNINITIALIZED_SEGMENT = 0;
 
     /** Image's private functions */
@@ -102,6 +102,11 @@ public:
      *            the list destructor) and delete the segments array
      */
     ~Image();
+
+    /**
+    * Image(const Image &) - default copy constructor
+    */
+    Image(const Image &) = default;
 
     /**
      * AddLabel - this function get segment id and label and add the label to

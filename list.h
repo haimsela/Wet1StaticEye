@@ -188,6 +188,15 @@ public:
      */
     int GetLength() const{return this->length;}
 
+    /**
+     * IsDataExists - This function gets data and check if the data exists in
+     *                the list
+     *
+     * @param data_to_find the data to find
+     * @return true if exists else false
+     */
+    bool IsDataExists(const T &data_to_find);
+
 };
 
 /**
@@ -307,6 +316,18 @@ template<class T>
 void List<T>::RemoveByData(const T &data_to_delete) {
     void* node_to_delete = this->Find(data_to_delete);
     this->Remove(node_to_delete);
+}
+
+/**
+ * IsDataExists - This function gets data and check if the data exists in
+ *                the list
+ *
+ * @param data_to_find the data to find
+ * @return true if exists else false
+ */
+template<class T>
+bool List<T>::IsDataExists(const T &data_to_find){
+    return Find(data_to_find) != nullptr;
 }
 
 #endif //WETONE_LIST_H

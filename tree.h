@@ -373,6 +373,15 @@ public:
     */
     int GetSize() const{return this->size;}
 
+    /**
+     * IsDataExists - This function gets data and check if the data exists in
+     *                the tree
+     *
+     * @param data_to_find the data to find
+     * @return true if exists else false
+     */
+    bool IsDataExists(const T &data_to_find);
+
 };
 
 /**
@@ -1046,6 +1055,18 @@ void Tree<T>::SetParentNode(Node* node_to_set_to,Node* new_parent_node){
     } else {
         node_to_set_to->SetParentNode(new_parent_node);
     }
+}
+
+/**
+ * IsDataExists - This function gets data and check if the data exists in
+ *                the list
+ *
+ * @param data_to_find the data to find
+ * @return true if exists else false
+ */
+template<class T>
+bool Tree<T>::IsDataExists(const T &data_to_find){
+    return FindInSubTree(data_to_find,this->root) != nullptr;
 }
 
 #endif //WETONE_TREE_H

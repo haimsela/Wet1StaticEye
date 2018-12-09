@@ -14,11 +14,11 @@
 *
 * @param segments - the number of segments in the image
 */
-Image::Image(int segments) : segments(segments) ,
-                                      uninitialized_segments() {
+Image::Image(int segments) : segments(segments)   {
     segments_array = new int[segments];
     InitializeSegmentsArray(segments_array,segments);
-    InitializeUninitializedSegmentsList(&uninitialized_segments,segments);
+    uninitialized_segments = new List<int>();
+    InitializeUninitializedSegmentsList(uninitialized_segments,segments);
 }
 
 /**
@@ -27,6 +27,7 @@ Image::Image(int segments) : segments(segments) ,
      */
 Image::~Image(){
     delete[] segments_array;
+    delete uninitialized_segments;
 }
 
 /**
