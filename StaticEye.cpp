@@ -32,10 +32,10 @@ void StaticEye::AddImage(int image_id){
         throw InvalidInput();
     }
 
-    Image new_image(this->segments);
+    Image* new_image = new Image(this->segments);
 
     try {
-        void* new_node = this->images_map_list.Add(image_id,&new_image);
+        void* new_node = this->images_map_list.Add(image_id,new_image);
         this->images_map_tree.Add(image_id,new_node);
     } catch (std::bad_alloc& bad_allocation ) {
         throw bad_allocation;
