@@ -87,6 +87,15 @@ private:
 
     };
 
+    /**
+     * FindNodeWithData - this function get data and returns the node with the
+     *                    data
+     *
+     * @param data_to_find - data to find
+     * @return the node with the data
+     */
+    void* FindNodeWithData(const T &data_to_find);
+
     /** List's private fields */
     int length;
     Node *head;
@@ -197,7 +206,8 @@ public:
      */
     bool IsDataExists(const T &data_to_find);
 
-};
+
+    };
 
 /**
  * List() - List constructor without arguments. The constructor initialize
@@ -239,18 +249,13 @@ List<T>::~List() {
  */
 template<class T>
 void* List<T>::Find(const T &data_to_find) {
-    Node *current_node = this->head->GetNextNode();
+    void *node_with_date = FindNodeWithData(data_to_find);
 
-    while (current_node != this->tail &&
-           current_node->GetNodeData() != data_to_find) {
-        current_node = current_node->GetNextNode();
-    }
-
-    if (current_node == this->tail){
+    if (node_with_date == nullptr){
         throw List::DataNotFoundException();
     }
 
-    return current_node;
+    return node_with_date;
 }
 
 /**
@@ -319,6 +324,30 @@ void List<T>::RemoveByData(const T &data_to_delete) {
 }
 
 /**
+ * FindNodeWithData - this function get data and returns the node with the
+ *                    data
+ *
+ * @param data_to_find - data to find
+ * @return the node with the data
+ */
+template<class T>
+void* List<T>::FindNodeWithData(const T &data_to_find){
+    Node *current_node = this->head->GetNextNode();
+
+    while (current_node != this->tail &&
+           current_node->GetNodeData() != data_to_find) {
+        current_node = current_node->GetNextNode();
+    }
+
+    if (current_node == this->tail){
+        return nullptr;
+    }
+
+    return current_node;
+
+}
+
+/**
  * IsDataExists - This function gets data and check if the data exists in
  *                the list
  *
@@ -327,7 +356,7 @@ void List<T>::RemoveByData(const T &data_to_delete) {
  */
 template<class T>
 bool List<T>::IsDataExists(const T &data_to_find){
-    return Find(data_to_find) != nullptr;
+    return FindNodeWithData(data_to_find) != nullptr;
 }
 
 #endif //WETONE_LIST_H
