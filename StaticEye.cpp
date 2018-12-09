@@ -40,8 +40,10 @@ void StaticEye::AddImage(int image_id){
     } catch (std::bad_alloc& bad_allocation ) {
         throw bad_allocation;
     } catch (typename MapList<int,Image*>::KeyAlreadyExists&  ){
+        delete new_image;
         throw StaticEye::Failure();
     } catch (typename MapTree<int,void*>::KeyAlreadyExists ) {
+        delete new_image;
         throw StaticEye::Failure();;
     }
 }
