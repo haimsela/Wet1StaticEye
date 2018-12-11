@@ -172,3 +172,18 @@ StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
         return INVALID_INPUT;
     }
 }
+
+/**
+ * GetAllSegmentsByLabel - This
+ *
+ * @param DS
+ * @param label
+ * @param images
+ * @param segments
+ * @param numOfSegments
+ * @return
+ */
+StatusType GetAllSegmentsByLabel(void *DS, int label, int **images,
+                                 int **segments, int *numOfSegments){
+
+}
