@@ -60,9 +60,8 @@ void StaticEye::DeleteImage(int image_id){
     }
 
     try {
-        void* image_to_delete_node = this->images_map_tree.FindKey(image_id);
         Image* image_to_delete = this->images_map_list.GetNodeData(
-                                             image_to_delete_node).GetValue();
+                this->images_map_tree.FindKey(image_id)).GetValue();
         delete image_to_delete;
 
         this->images_map_tree.DeleteKey(image_id);
