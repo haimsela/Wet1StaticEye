@@ -123,9 +123,41 @@ void StaticEye::GetLabel(int image_id, int segment_id, int* label){
     try {
         void *node_of_image_to_get_label_of = this->images_map_tree.FindKey(
                                                                   image_id);
-        Image *get_label_of = this->images_map_list.GetNodeData(
+        Image *image_to_get_label_of = this->images_map_list.GetNodeData(
                                  node_of_image_to_get_label_of).GetValue();
-        *label = get_label_of->GetLabel(segment_id);
+        *label = image_to_get_label_of->GetLabel(segment_id);
+
+    } catch (std::bad_alloc &bad_allocation) {
+        throw bad_allocation;
+    } catch (typename MapTree<int, void *>::DataNotFoundException &) {
+        throw StaticEye::Failure();
+    } catch (typename Image::InvalidInput &) {
+        throw StaticEye::InvalidInput();
+    } catch (typename Image::Failure &) {
+        throw StaticEye::Failure();
+    }
+}
+
+/**
+ * DeleteLabel - this function delete label from image segment by finding
+ *                the image and deleting the label from image segments
+ *                array and adding the segment to the uninitialized
+ *                segments list
+ *
+ * @param image_id - image id to delete label in
+ * @param segment_id - segment id to delete label of
+ */
+void StaticEye::DeleteLabel(int image_id, int segment_id){
+    if (!IsValidImageId(image_id)) {
+        throw InvalidInput();
+    }
+
+    try {
+        void *node_of_image_to_delete_label_of = this->images_map_tree.FindKey(
+                                                                    image_id);
+        Image *image_to_delete_label_of = this->images_map_list.GetNodeData(
+                               node_of_image_to_delete_label_of).GetValue();
+        image_to_delete_label_of->DeleteLabel(segment_id);
 
     } catch (std::bad_alloc &bad_allocation) {
         throw bad_allocation;

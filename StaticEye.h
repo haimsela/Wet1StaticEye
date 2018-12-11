@@ -84,6 +84,17 @@ public:
      */
     void GetLabel(int image_id, int segment_id, int* label);
 
+    /**
+     * DeleteLabel - this function delete label from image segment by finding
+     *                the image and deleting the label from image segments
+     *                array and adding the segment to the uninitialized
+     *                segments list
+     *
+     * @param image_id - image id to delete label in
+     * @param segment_id - segment id to delete label of
+     */
+    void DeleteLabel(int image_id, int segment_id);
+
 };
 
 #endif //WET1STATICEYE_STATICEYE_H

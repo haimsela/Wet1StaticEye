@@ -17,6 +17,17 @@ int main(int argc, const char**argv) {
     int lab;
     test.GetLabel(2, 1, &lab);
     cout << lab << endl;
+    try{
+        test.GetLabel(62, 1, &lab);
+    } catch (typename StaticEye::Failure&){
+        cout << "yay" << endl;
+    }
+    test.DeleteLabel(2, 1);
+    try{
+        test.GetLabel(2, 1, &lab);
+    } catch (typename StaticEye::Failure&){
+        cout << "yay" << endl;
+    }
 
 
 }
