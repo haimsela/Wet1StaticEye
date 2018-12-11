@@ -66,7 +66,7 @@ StatusType DeleteImage(void *DS, int imageID){
 }
 
 /**
- * AddLabel - add label to image in StaticEye system given
+ * AddLabel - add label to segment in image in StaticEye system given
  *
  * @param DS - StaticEye to add label to image on
  * @param imageID - image to add label to
@@ -92,12 +92,13 @@ StatusType AddLabel(void *DS, int imageID, int segmentID, int label){
 }
 
 /**
- * GetLabel - get label
- * @param DS
- * @param imageID
- * @param segmentID
- * @param label
- * @return
+ * GetLabel - get label of segment in StaticEye system given
+ *
+ * @param DS - StaticEye to add label to image on
+ * @param imageID - image to get segment label on
+ * @param segmentID - segment to get label of
+ * @param label - return value for the label of a segment
+ * @return status of the operation
  */
 StatusType GetLabel(void *DS, int imageID, int segmentID, int *label){
     if(DS == nullptr || label == nullptr){
@@ -116,33 +117,27 @@ StatusType GetLabel(void *DS, int imageID, int segmentID, int *label){
     }
 }
 
-
 /**
- * Size - get the size of the data structure
+ * DeleteLabel - delete label from segment in image in StaticEye system given
  *
- * @param DS - data structure get size of
- * @param n - pointer to return value of the size
- * @return the size as pointer and status
+ * @param DS - StaticEye to delete label from segment in image in
+ * @param imageID - image to delete label from segment in
+ * @param segmentID - segment to delete label of
+ * @return status of the operation
  */
-StatusType Size(void *DS, int *n){
-    if(DS==nullptr || n == nullptr){
+StatusType DeleteLabel(void *DS, int imageID, int segmentID){
+    if(DS == nullptr){
         return INVALID_INPUT;
     }
 
-    *n = ((MapList<int,void*>*)DS)->GetMapSize();
-
-    return SUCCESS;
-}
-/**
- * Quit - This function free the data structure resources
- *
- * @param DS -  data structure to free
- */
-void Quit(void** DS){
-    if(DS == nullptr){
-        return;
+    try {
+        ((StaticEye*)DS)->DeleteLabel(imageID,segmentID);
+        return SUCCESS;
+    } catch (std::bad_alloc& bad_allocation ) {
+        return ALLOCATION_ERROR;
+    } catch (typename StaticEye::Failure()&  ){
+        return FAILURE;
+    } catch (typename StaticEye::InvalidInput()& ) {
+        return INVALID_INPUT;
     }
-
-    delete (MapList<int,void*>*)(*DS);
-    *DS= nullptr;
 }
