@@ -140,8 +140,8 @@ const K& MapTree<T,K>::FindKey(const T &key){
         MapElement<T,K> new_element(key);
 
         void* node = this->map_tree.Find(new_element);
-        MapElement<T,K> element_searched = this->map_tree.GetNodeData(node);
-        return  element_searched.GetValue();
+        return  this->map_tree.GetNodeData(node).GetValue();
+
     } catch (typename Tree<MapElement<T,K>>::DataNotFoundException&
     not_found ){
         throw MapTree<T,K>::DataNotFoundException();
