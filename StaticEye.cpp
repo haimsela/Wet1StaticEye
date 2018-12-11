@@ -353,6 +353,26 @@ void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
 
     *current_number_of_segments += number_of_segments_in_image;
 
+    /**
+     * FillAllSegmentsByLabelArrays -  fill the images and segments array that
+     *                                 was given to the GetAllSegmentsByLabel
+     *                                 function after already allocate the
+     *                                 arrays and calculate the number of
+     *                                 segments with the label. this
+     *                                 function in a recursive function that
+     *                                 run on all the nodes in the tree using
+     *                                 inorder method
+     *
+     * @param node_of_current_image - pointer to the current node to add
+     *                                the segments of
+     * @param label - label to find the label segments of
+     * @param images - images array that contains the image id of segment with
+     *                 the given label
+     * @param segments - segment to given label that correspond to the image
+     *                   in the images array with the same index
+     * @param number_of_segments - number of segments in all the images with
+     *                             the given label
+     */
     this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRight(
                                                         node_of_current_image),
                                        label,images, segments,

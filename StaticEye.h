@@ -46,8 +46,14 @@ class StaticEye {
      *                                 was given to the GetAllSegmentsByLabel
      *                                 function after already allocate the
      *                                 arrays and calculate the number of
-     *                                 segments with the label.
+     *                                 segments with the label. this
+     *                                 function in a recursive function that
+     *                                 run on all the nodes in the tree using
+     *                                 inorder method
      *
+     * @param node_of_current_image - pointer to the current node to add
+     *                                the segments of
+     * @param label - label to find the label segments of
      * @param images - images array that contains the image id of segment with
      *                 the given label
      * @param segments - segment to given label that correspond to the image
