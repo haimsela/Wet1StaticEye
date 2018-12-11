@@ -206,9 +206,58 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
     }
 }
 
+/**
+ * GetAllSegmentsByLabel - this function get all the segments in all the
+ *                         images with given label. the function will
+ *                         allocate two new arrays that contains the
+ *                         segments and the image of the segment with
+ *                         the given label.
+ *
+ * @param label - the label to find
+ * @param images - images array that contains the image id of segment with
+ *                 the given label
+ * @param segments - segment to given label that correspond to the image
+ *                   in the images array with the same index
+ * @param number_of_segments - number of segments in all the images with
+ *                             the given label
+ */
+void StaticEye::IsLabelLegal(int label, int **images, int **segments,
+                           int *number_of_segments){
+    if (!IsLabelLegal(label)) {
+        throw InvalidInput();
+    }
+
+        *number_of_segments = this->GetNumberOfSegmentsWithLabel(label);
+}
+
 /*========================================================================
   StaticEye private functions:
 ========================================================================*/
+
+/**
+* GetNumberOfSegmentsWithLabel - this function check how manny segments in
+*                                all the images has same label as the one
+*                                that was given. the function will run on
+*                                all the images and on all image will
+*                                run on all thw segments.
+*
+* @param label - label to check
+*/
+int StaticEye::GetNumberOfSegmentsWithLabel(int label){
+    int number_of_segments = 0;
+
+    Image* current_image;
+    void* current_node = this->images_map_list.GetFirstNode();
+
+    for(int i=0;i<this->images_map_list.GetMapSize();i++){
+        current_image = this->images_map_list.GetNodeData(current_node).
+                                                              GetValue();
+        number_of_segments += current_image.
+
+        current_node = this->images_map_list.GetNextNode(current_node);
+    }
+
+}
 
 /**
  * IsValidImageId - this function gets image id and check if the id is
@@ -219,4 +268,14 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
  */
 bool StaticEye::IsValidImageId(int image_id){
     return image_id > 0;
+}
+
+/**
+* IsLabelLegal - this function check if label is legal
+*
+* @param label - label to check
+* @return true if legal otherwise false
+*/
+bool StaticEye::IsLabelLegal(int label){
+    return label > 0;
 }

@@ -22,6 +22,26 @@ class StaticEye {
      */
     static bool IsValidImageId(int image_id);
 
+    /**
+    * IsLabelLegal - this function check if label is legal
+    *
+    * @param label - label to check
+    * @return true if legal otherwise false
+    */
+    static bool IsLabelLegal(int label);
+
+    /**
+    * GetNumberOfSegmentsWithLabel - this function check how manny segments in
+    *                                all the images has same label as the one
+    *                                that was given. the function will run on
+    *                                all the images and on all image will
+    *                                run on all thw segments.
+    *
+    * @param label - label to check
+    */
+    int GetNumberOfSegmentsWithLabel(int label);
+
+    GetNumberOfSegmentsWithLabel
 public:
     /**                    Exceptions                    */
     class InvalidInput : public std::exception {};
@@ -107,6 +127,23 @@ public:
     void GetAllUnLabeledSegments(int image_id, int **segments,
                                  int* number_of_segments);
 
+    /**
+     * GetAllSegmentsByLabel - this function get all the segments in all the
+     *                         images with given label. the function will
+     *                         allocate two new arrays that contains the
+     *                         segments and the image of the segment with
+     *                         the given label.
+     *
+     * @param label - the label to find
+     * @param images - images array that contains the image id of segment with
+     *                 the given label
+     * @param segments - segment to given label that correspond to the image
+     *                   in the images array with the same index
+     * @param number_of_segments - number of segments in all the images with
+     *                             the given label
+     */
+    void GetAllSegmentsByLabel(int label, int **images, int **segments,
+                               int *number_of_segments);
 };
 
 #endif //WET1STATICEYE_STATICEYE_H

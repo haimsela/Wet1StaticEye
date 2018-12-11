@@ -153,6 +153,26 @@ void Image::GetAllSegmentsByLabel(int **segments, int label ){
     }
 }
 
+/**
+ * FindNumberOfSegmentsWithLabel - this function get label and return the
+ *                                 number of segments in the image with
+ *                                 the label
+ *
+ * @param label - label to search
+ * @return number of segments with the label
+ */
+int Image::FindNumberOfSegmentsWithLabel(int label){
+    int number_of_segments=0;
+
+    for(int i=0;i<segments;i++){
+        if(this->segments_array[i]==label){
+            number_of_segments++;
+        }
+    }
+
+    return number_of_segments;
+}
+
 /*========================================================================
   Image private functions:
 ========================================================================*/
@@ -237,3 +257,4 @@ void Image::FillUnlabeledArrayUsingTheUnlabeledList(
                                                                  current_node);
     }
 }
+
