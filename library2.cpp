@@ -141,3 +141,34 @@ StatusType DeleteLabel(void *DS, int imageID, int segmentID){
         return INVALID_INPUT;
     }
 }
+
+/**
+ * GetAllUnLabeledSegments - return all the unlabeled segments in image in
+ *                           given StaticEye system
+ *
+ * @param DS - StaticEye system to get all unlabeled segments in image in
+ * @param imageID - image to get all the unlabeled segments in
+ * @param segments - pointer to return new array with all the unlabeled
+ *                   segments in given image
+ * @param numOfSegments - pointer to return the number of unlabeled segments in
+ *                        the image
+ * @return status of the operation
+ */
+StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
+                                   int *numOfSegments){
+    if(DS == nullptr || segments == nullptr  || numOfSegments == nullptr){
+        return INVALID_INPUT;
+    }
+
+    try {
+        ((StaticEye*)DS)->GetAllUnLabeledSegments(imageID,segments,
+                                                  numOfSegments);
+        return SUCCESS;
+    } catch (std::bad_alloc& bad_allocation ) {
+        return ALLOCATION_ERROR;
+    } catch (typename StaticEye::Failure()&  ){
+        return FAILURE;
+    } catch (typename StaticEye::InvalidInput()& ) {
+        return INVALID_INPUT;
+    }
+}
