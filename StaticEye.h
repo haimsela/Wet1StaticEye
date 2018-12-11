@@ -57,7 +57,7 @@ class StaticEye {
      */
     void FillAllSegmentsByLabelArrays(void* node_of_current_image,int label,
                                       int **images,int **segments,
-                                      int current_number_of_segments);
+                                      int *current_number_of_segments);
 
 public:
     /**                    Exceptions                    */
