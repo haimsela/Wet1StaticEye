@@ -33,7 +33,7 @@ void StaticEye::AddImage(int image_id){
     }
 
     if(this->images_map_tree.IsKeyExists(image_id)){
-        throw typename StaticEye::Failure();
+        throw StaticEye::Failure();
     }
 
 

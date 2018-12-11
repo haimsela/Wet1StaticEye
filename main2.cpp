@@ -1,61 +1,61 @@
-#include "StaticEye.h"
+#include "library2.h"
 #include <iostream>
+using namespace std;
 
 int main(int argc, const char**argv) {
+    void* DS;
 
-    StaticEye test(5);
-    test.AddImage(2);
-    try{
-        test.AddImage(2);
-    } catch (typename StaticEye::Failure&){
+    DS = Init(5);
+
+    AddImage(DS,2);
+
+    if(AddImage(DS,2) == FAILURE){
         cout << "yay" << endl;
     }
 
-    test.DeleteImage(2);
-    test.AddImage(2);
-    test.AddLabel(2, 1, 8);
+    DeleteImage(DS,2);
+    AddImage(DS,2);
+    AddLabel(DS,2, 1, 8);
     int lab;
-    test.GetLabel(2, 1, &lab);
+    GetLabel(DS, 2, 1, &lab);
     cout << lab << endl;
-    try{
-        test.GetLabel(62, 1, &lab);
-    } catch (typename StaticEye::Failure&){
-        cout << "yay" << endl;
-    }
-    test.DeleteLabel(2, 1);
-    try{
-        test.GetLabel(2, 1, &lab);
-    } catch (typename StaticEye::Failure&){
+    if(GetLabel(DS,62, 1, &lab) == FAILURE){
         cout << "yay" << endl;
     }
 
-    test.AddLabel(2, 1, 8);
-    test.AddLabel(2, 4, 6);
+    DeleteLabel(DS,2, 1);
+
+    if(GetLabel(DS,2, 1, &lab) == FAILURE){
+        cout << "yay" << endl;
+    }
+
+    AddLabel(DS,2, 1, 8);
+    AddLabel(DS,2, 4, 6);
 
     int* segments;
     int number_of_segments;
 
-    test.GetAllUnLabeledSegments(2, &segments, &number_of_segments);
+    GetAllUnLabeledSegments(DS,2, &segments, &number_of_segments);
 
     for(int i=0;i<number_of_segments;i++){
         cout << segments[i] << endl;
     }
 
     free(segments);
-    test.AddImage(8);
-    test.AddLabel(8, 4, 8);
-    test.AddLabel(8, 1, 8);
+    AddImage(DS,8);
+    AddLabel(DS,8, 4, 8);
+    AddLabel(DS,8, 1, 8);
 
-    test.AddImage(4);
-    test.AddLabel(4, 3, 8);
-    test.AddLabel(4, 0, 8);
-    test.AddLabel(4, 2, 4);
+    AddImage(DS,4);
+    AddLabel(DS,4, 3, 8);
+    AddLabel(DS,4, 0, 8);
+    AddLabel(DS,4, 2, 4);
 
     int* segmentslab;
     int* imagelab;
     int num_of_seg;
 
-    test.GetAllSegmentsByLabel(8,&imagelab,&segmentslab,&num_of_seg);
+    GetAllSegmentsByLabel(DS,8,&imagelab,&segmentslab,&num_of_seg);
 
     for(int j=0;j<num_of_seg;j++){
         cout << "Image: " << imagelab[j] << " segment: " << segmentslab[j] << endl;
