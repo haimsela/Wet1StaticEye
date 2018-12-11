@@ -84,8 +84,58 @@ void StaticEye::DeleteImage(int image_id){
  * @param segmentID - segment to label
  * @param label - the label to give to the segment
  */
-void AddLabel(int imageID, int segmentID, int label){
+void StaticEye::AddLabel(int image_id, int segment_id, int label) {
+    if (!IsValidImageId(image_id)) {
+        throw InvalidInput();
+    }
 
+    try {
+        void *node_of_image_to_add_label_to = this->images_map_tree.FindKey(
+                image_id);
+        Image *image_to_add_label_to = this->images_map_list.GetNodeData(
+                                    node_of_image_to_add_label_to).GetValue();
+        image_to_add_label_to->AddLabel(segment_id, label);
+
+    } catch (std::bad_alloc &bad_allocation) {
+        throw bad_allocation;
+    } catch (typename MapTree<int, void *>::DataNotFoundException &) {
+        throw StaticEye::Failure();
+    } catch (typename Image::InvalidInput &) {
+        throw StaticEye::InvalidInput();
+    } catch (typename Image::Failure &) {
+        throw StaticEye::Failure();
+    }
+}
+
+/**
+ * GetLabel - this function get label from image segment by finding the
+ *            image and getting the label from image segments array
+ *
+ * @param imageID - image to get label from
+ * @param segmentID - segment to get label of
+ * @param label - pointer to return value of label
+ */
+void StaticEye::GetLabel(int image_id, int segment_id, int* label){
+    if (!IsValidImageId(image_id)) {
+        throw InvalidInput();
+    }
+
+    try {
+        void *node_of_image_to_get_label_of = this->images_map_tree.FindKey(
+                                                                  image_id);
+        Image *get_label_of = this->images_map_list.GetNodeData(
+                                 node_of_image_to_get_label_of).GetValue();
+        *label = get_label_of->GetLabel(segment_id);
+
+    } catch (std::bad_alloc &bad_allocation) {
+        throw bad_allocation;
+    } catch (typename MapTree<int, void *>::DataNotFoundException &) {
+        throw StaticEye::Failure();
+    } catch (typename Image::InvalidInput &) {
+        throw StaticEye::InvalidInput();
+    } catch (typename Image::Failure &) {
+        throw StaticEye::Failure();
+    }
 }
 
 /*========================================================================

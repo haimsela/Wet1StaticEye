@@ -72,7 +72,18 @@ public:
      * @param segmentID - segment to label
      * @param label - the label to give to the segment
      */
-    void AddLabel(int imageID, int segmentID, int label);
+    void AddLabel(int image_id, int segment_id, int label);
+
+    /**
+     * GetLabel - this function get label from image segment by finding the
+     *            image and getting the label from image segments array
+     *
+     * @param imageID - image to get label from
+     * @param segmentID - segment to get label of
+     * @param label - pointer to return value of label
+     */
+    void GetLabel(int image_id, int segment_id, int* label);
+
 };
 
 #endif //WET1STATICEYE_STATICEYE_H

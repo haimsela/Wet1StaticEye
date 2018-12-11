@@ -40,7 +40,7 @@ Image::~Image(){
  * @param label - label to add
  */
 void Image::AddLabel(int segment_id,int label){
-    if((!this->IsSegmentIdLegal(segment_id)) || (IsLabelLegal(label))){
+    if((!this->IsSegmentIdLegal(segment_id)) || (!IsLabelLegal(label))){
         throw InvalidInput();
     }
 
