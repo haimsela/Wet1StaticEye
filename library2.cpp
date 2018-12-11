@@ -174,16 +174,49 @@ StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
 }
 
 /**
- * GetAllSegmentsByLabel - This
+ * GetAllSegmentsByLabel - this function returns all the segment in all the
+ *                         images that labeled by a given label
  *
- * @param DS
- * @param label
- * @param images
- * @param segments
- * @param numOfSegments
+ * @param DS - StaticEye system to get all the segments with the label in
+ * @param label - label to return all the segments with
+ * @param images - pointer to return images array that contains the image id
+ *                 of segment with the given label
+ * @param segments - pointer to return segment with given label that correspond
+ *                   to the image in the images array with the same index
+ * @param number_of_segments - number of segments in all the images with
+ *                             the given label
  * @return
  */
 StatusType GetAllSegmentsByLabel(void *DS, int label, int **images,
                                  int **segments, int *numOfSegments){
+    if(DS == nullptr || images == nullptr  || segments == nullptr ||
+       numOfSegments == nullptr ){
+        return INVALID_INPUT;
+    }
 
+    try {
+        ((StaticEye*)DS)->GetAllSegmentsByLabel(label,images,segments,
+                                                numOfSegments);
+        return SUCCESS;
+    } catch (std::bad_alloc& bad_allocation ) {
+        return ALLOCATION_ERROR;
+    } catch (typename StaticEye::Failure()&  ){
+        return FAILURE;
+    } catch (typename StaticEye::InvalidInput()& ) {
+        return INVALID_INPUT;
+    }
+}
+
+/**
+ * Quit - destroy a given StaticEye system  and free all the systems resources
+ *
+ * @param DS - StaticEye system to destroy
+ */
+void Quit(void** DS){
+    if(DS == nullptr){
+        return;
+    }
+
+    delete ((StaticEye*)*DS);
+    *DS = nullptr;
 }
