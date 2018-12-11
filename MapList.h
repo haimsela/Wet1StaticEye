@@ -112,7 +112,7 @@ public:
      * @param current_node - node to get the element of
      * @return the map element of the node
      */
-    MapElement<T,K> GetNodeData(void* current_node){
+    const MapElement<T,K>& GetNodeData(void* current_node){
         return this->map_list.GetNodeData(current_node);}
 
 };

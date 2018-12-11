@@ -241,7 +241,8 @@ void StaticEye::GetAllSegmentsByLabel(int label, int **images, int **segments,
     }
 
     try{
-        this->FillAllSegmentsByLabelArrays(label,images, segments);
+        this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRoot(),
+                                           label,images, segments,0);
     }catch (std::bad_alloc &bad_allocation) {
         free(*images);
         free(*segments);
@@ -317,33 +318,41 @@ bool StaticEye::IsLabelLegal(int label){
  * @param number_of_segments - number of segments in all the images with
  *                             the given label
  */
-void StaticEye::FillAllSegmentsByLabelArrays(int label, int **images,
-                                             int **segments){
+void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
+                                             int label, int **images,
+                                             int **segments,
+                                             int current_number_of_segments){
+    if(node_of_current_image== nullptr){
+        return;
+    }
 
-    int number_of_segments_in_image = 0,current_number_of_segments=0,
-        current_image_id;
+    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetLeft(
+                                                        node_of_current_image),
+                                       label,images, segments,
+                                       current_number_of_segments);
 
-    Image* current_image;
-    void* current_node = this->images_map_list.GetFirstNode();
+    void* image_node = this->images_map_tree.GetNodeData(node_of_current_image)
+                                                                  .GetValue();
+    Image* current_image = this->images_map_list.GetNodeData(image_node)
+                                                                 .GetValue();
+    int current_image_id = this->images_map_list.GetNodeData(image_node).
+                           GetKey();
 
-    for(int i=0;i<this->images_map_list.GetMapSize();i++){
-        current_image = this->images_map_list.GetNodeData(current_node).
-                                                         GetValue();
-        current_image_id = this->images_map_list.GetNodeData(current_node).
-                                                                  GetKey();
-        number_of_segments_in_image = current_image->
+    int number_of_segments_in_image = current_image->
                                           FindNumberOfSegmentsWithLabel(label);
 
-        for(int j=0;j<number_of_segments_in_image;j++){
-            (*images)[j+current_number_of_segments]=current_image_id;
-        }
-
-        current_image->GetAllSegmentsByLabel(
-                                       (*segments)+current_number_of_segments,
-                                       label);
-
-        current_number_of_segments+=number_of_segments_in_image;
-        current_node = this->images_map_list.GetNextNode(current_node);
+    for(int i=0;i<number_of_segments_in_image;i++){
+        (*images)[i+current_number_of_segments]=current_image_id;
     }
+
+    current_image->GetAllSegmentsByLabel(
+                                   (*segments)+current_number_of_segments,
+                                   label);
+
+    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetLeft(
+            node_of_current_image),
+                                       label,images, segments,
+                                       current_number_of_segments+
+                                       number_of_segments_in_image);
 
 }

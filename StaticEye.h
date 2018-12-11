@@ -55,7 +55,9 @@ class StaticEye {
      * @param number_of_segments - number of segments in all the images with
      *                             the given label
      */
-    void FillAllSegmentsByLabelArrays(int label, int **images, int **segments);
+    void FillAllSegmentsByLabelArrays(void* node_of_current_image,int label,
+                                      int **images,int **segments,
+                                      int current_number_of_segments);
 
 public:
     /**                    Exceptions                    */

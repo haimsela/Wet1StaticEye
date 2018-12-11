@@ -92,7 +92,7 @@ public:
     int GetMapSize();
 
     // for the test
-    const T& GetNodeData(void * node){return
+    const MapElement<T,K>& GetNodeData(void * node){return
                                           map_tree.GetNodeData(node).GetKey();}
 
     /**
@@ -102,6 +102,31 @@ public:
      * @return - true of if exists otherwise false
      */
     bool IsKeyExists(const T &key);
+
+    /**
+     * GetRoot - return the root node of the map
+     *
+     * @return return the root node of the map
+     */
+    void* GetRoot(){return map_tree.GetRoot();};
+
+    /**
+     * GetLeft - get node and return pointer to the left son node
+     *
+     * @param current_node - node to get left son of
+     * @return the left son node
+     */
+    void* GetLeft(void* current_node){return
+                map_tree.GetLeft(current_node);};
+
+    /**
+     * GetRight - get node and return pointer to the right son node
+     *
+     * @param current_node - node to get right son of
+     * @return the right son node
+     */
+    void* GetRight(void* current_node){return
+                                       map_tree.GetRight(current_node);};
 };
 
 /**

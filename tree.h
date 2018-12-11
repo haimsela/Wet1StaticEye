@@ -382,6 +382,30 @@ public:
      */
     bool IsDataExists(const T &data_to_find);
 
+    /**
+     * GetRoot - return pointer to the root node
+     *
+     * @return pointer to the root node
+     */
+    void* GetRoot(){return (void*)this->root;};
+
+    /**
+     * GetLeft - return pointer to the left son of the node
+     *
+     * @param current_node - current node to find the lef son of
+     * @return pointer to the left son of the node
+     */
+    void* GetLeft(void* current_node){return (void*)(((Node*)current_node)->
+                                                            GetLeftNode());};
+
+    /**
+     * GetRight - return pointer to the left son of the node
+     *
+     * @param current_node - current node to find the lef son of
+     * @return pointer to the left son of the node
+     */
+    void* GetRight(void* current_node){return (void*)(((Node*)current_node)->
+                                                             GetRightNode());};
 };
 
 /**
