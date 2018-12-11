@@ -16,7 +16,7 @@ StaticEye::~StaticEye(){
 
     for(int i=0;i<this->images_map_list.GetMapSize();i++){
         current_image = this->images_map_list.GetNodeData(current_node).
-                                                                   getValue();
+                                                                   GetValue();
         delete current_image;
         current_node = this->images_map_list.GetNextNode(current_node);
     }
@@ -42,8 +42,36 @@ void StaticEye::AddImage(int image_id){
     } catch (typename MapList<int,Image*>::KeyAlreadyExists&  ){
         delete new_image;
         throw StaticEye::Failure();
-    } catch (typename MapTree<int,void*>::KeyAlreadyExists ) {
+    } catch (typename MapTree<int,void*>::KeyAlreadyExists& ) {
         delete new_image;
+        throw StaticEye::Failure();;
+    }
+}
+
+/**
+ * DeleteImage - delete image from the system by delete the image from the
+ *               the tree map and the list map
+ *
+ * @param image_id - image to delete
+ */
+void StaticEye::DeleteImage(int image_id){
+    if(!IsValidImageId(image_id)){
+        throw InvalidInput();
+    }
+
+    try {
+        void* image_to_delete_node = this->images_map_tree.FindKey(image_id);
+        Image* image_to_delete = this->images_map_list.GetNodeData(
+                                             image_to_delete_node).GetValue();
+        delete image_to_delete;
+
+        this->images_map_tree.DeleteKey(image_id);
+        this->images_map_list.DeleteKey(image_id);
+    } catch (std::bad_alloc& bad_allocation ) {
+        throw bad_allocation;
+    } catch (typename MapList<int,Image*>::DataNotFoundException&  ){
+        throw StaticEye::Failure();
+    } catch (typename MapTree<int,void*>::DataNotFoundException& ) {
         throw StaticEye::Failure();;
     }
 }

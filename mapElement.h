@@ -27,7 +27,7 @@ public:
     /**
     * MapElement() - MapElement constructor
     */
-    explicit MapElement(T key,K value) : key(key),value(value) {}
+    explicit MapElement(const T& key, const K& value) : key(key),value(value) {}
 
     /**
     * MapElement() - MapElement constructor
@@ -53,28 +53,28 @@ public:
     MapElement &operator=(const MapElement &)= delete;
 
     /**
-     * getKey - return the element key
+     * GetKey - return the element key
      *
      * @return the element key
      */
-    const T& getKey() const{return this->key;}
+    const T& GetKey() const{return this->key;}
 
     /**
-     * getValue - return the element value
+     * GetValue - return the element value
      *
      * @return the element value
      */
-    const K& getValue() const{return this->value;}
+    const K& GetValue() const{return this->value;}
 
     /**
-     * setKey - set the element key to new value. dependent in T operator=
+     * SetKey - set the element key to new value. dependent in T operator=
      */
-    void setKey(T key){this->key=key;}
+    void SetKey(T key){this->key=key;}
 
     /**
-     * setKey - set the element value. dependent in K operator=
+     * SetValue - set the element value. dependent in K operator=
      */
-    void setValue(K value){this->value=value;}
+    void SetValue(K value){this->value=value;}
 
 };
 
@@ -90,7 +90,7 @@ public:
 template<class T,class K>
 inline bool operator==(const MapElement<T,K>& map_element1,
                        const MapElement<T,K>& map_element2){
-    return map_element1.getKey()==map_element2.getKey();
+    return map_element1.GetKey()==map_element2.GetKey();
 }
 
 /**
@@ -119,7 +119,7 @@ inline bool operator!=(const MapElement<T,K>& map_element1,
 template<class T,class K>
 inline bool operator>(const MapElement<T,K>& map_element1,
                       const MapElement<T,K>& map_element2){
-    return map_element1.getKey()>map_element2.getKey();
+    return map_element1.GetKey()>map_element2.GetKey();
 }
 
 /**

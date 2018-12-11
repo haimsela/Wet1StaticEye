@@ -50,10 +50,19 @@ public:
 
     /**
      * AddImage - this function get image id and add the id to the system
+     *            by adding the image to the tree map and the list map
      *
      * @param image_id - image id to add
      */
     void AddImage(int image_id);
+
+    /**
+     * DeleteImage - delete image from the system by delete the image from the
+     *               the tree map and the list map
+     *
+     * @param image_id - image to delete
+     */
+    void DeleteImage(int image_id);
 };
 
 #endif //WET1STATICEYE_STATICEYE_H

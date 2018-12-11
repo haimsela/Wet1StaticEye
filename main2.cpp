@@ -10,4 +10,7 @@ int main(int argc, const char**argv) {
     } catch (typename StaticEye::Failure&){
         cout << "yay" << endl;
     }
+
+    test.DeleteImage(2);
+    test.AddImage(2);
 }

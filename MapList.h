@@ -163,7 +163,7 @@ const K& MapList<T,K>::FindKey(const T &key){
 
         void* node = this->map_list.Find(new_element);
         MapElement<T,K> element_searched = this->map_list.GetNodeData(node);
-        return  element_searched.getValue();
+        return  element_searched.GetValue();
     } catch (typename List<MapElement<T,K>>::DataNotFoundException&
                                                                    not_found ){
         throw MapList<T,K>::DataNotFoundException();
