@@ -3,7 +3,7 @@
 
 int main(int argc, const char**argv) {
 
-    StaticEye test(3);
+    StaticEye test(5);
     test.AddImage(2);
     try{
         test.AddImage(2);
@@ -28,6 +28,20 @@ int main(int argc, const char**argv) {
     } catch (typename StaticEye::Failure&){
         cout << "yay" << endl;
     }
+
+    test.AddLabel(2, 1, 8);
+    test.AddLabel(2, 4, 6);
+
+    int* segments;
+    int number_of_segments;
+
+    test.GetAllUnLabeledSegments(2, &segments, &number_of_segments);
+
+    for(int i=0;i<number_of_segments;i++){
+        cout << segments[i] << endl;
+    }
+
+    free(segments);
 
 
 }

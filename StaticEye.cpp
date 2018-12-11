@@ -170,6 +170,42 @@ void StaticEye::DeleteLabel(int image_id, int segment_id){
     }
 }
 
+/**
+ * GetAllUnLabeledSegments - this function get image id and get a array of
+ *                           all the unlabeled segments using the
+ *                           uninitialized segments list of the image
+ *
+ * @param image_id - image to get uninitialized segments of
+ * @param segments - return array with all the unlabeled segments
+ * @param number_of_segments - number id unlabeled segments in the image
+ */
+void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
+                                        int* number_of_segments){
+    if (!IsValidImageId(image_id)) {
+        throw InvalidInput();
+    }
+
+    try {
+        void *node_of_image_to_get_unlabeled_segments = this->images_map_tree.
+                                                           FindKey(image_id);
+        Image *image_to_get_unlabeled_segments = this->images_map_list.
+                         GetNodeData(node_of_image_to_get_unlabeled_segments).
+                         GetValue();
+
+        *number_of_segments = image_to_get_unlabeled_segments->
+                                           GetAllUnLabeledSegments(segments);
+
+    } catch (std::bad_alloc &bad_allocation) {
+        throw bad_allocation;
+    } catch (typename MapTree<int, void *>::DataNotFoundException &) {
+        throw StaticEye::Failure();
+    } catch (typename Image::InvalidInput &) {
+        throw StaticEye::InvalidInput();
+    } catch (typename Image::Failure &) {
+        throw StaticEye::Failure();
+    }
+}
+
 /*========================================================================
   StaticEye private functions:
 ========================================================================*/

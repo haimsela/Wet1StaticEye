@@ -95,6 +95,18 @@ public:
      */
     void DeleteLabel(int image_id, int segment_id);
 
+    /**
+     * GetAllUnLabeledSegments - this function get image id and get a array of
+     *                           all the unlabeled segments using the
+     *                           uninitialized segments list of the image
+     *
+     * @param image_id - image to get uninitialized segments of
+     * @param segments - return array with all the unlabeled segments
+     * @param number_of_segments - number id unlabeled segments in the image
+     */
+    void GetAllUnLabeledSegments(int image_id, int **segments,
+                                 int* number_of_segments);
+
 };
 
 #endif //WET1STATICEYE_STATICEYE_H
