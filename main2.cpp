@@ -13,5 +13,10 @@ int main(int argc, const char**argv) {
 
     test.DeleteImage(2);
     test.AddImage(2);
-    test.AddLabel(2, 1, 2);
+    test.AddLabel(2, 1, 8);
+    int lab;
+    test.GetLabel(2, 1, &lab);
+    cout << lab << endl;
+
+
 }
