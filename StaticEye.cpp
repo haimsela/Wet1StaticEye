@@ -349,7 +349,7 @@ void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
                                    (*segments)+current_number_of_segments,
                                    label);
 
-    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetLeft(
+    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRight(
             node_of_current_image),
                                        label,images, segments,
                                        current_number_of_segments+
