@@ -42,6 +42,21 @@ int main(int argc, const char**argv) {
     }
 
     free(segments);
+    test.AddImage(8);
+    test.AddLabel(8, 4, 8);
+    test.AddLabel(8, 1, 8);
+    int* segmentslab;
+    int* imagelab;
+    int num_of_seg;
+
+    test.GetAllSegmentsByLabel(8,&imagelab,&segmentslab,&num_of_seg);
+
+    for(int j=0;j<num_of_seg;j++){
+        cout << "Image: " << imagelab[j] << " segment: " << segmentslab[j] << endl;
+    }
+
+    free(segmentslab);
+    free(imagelab);
 
 
 }

@@ -41,7 +41,22 @@ class StaticEye {
     */
     int GetNumberOfSegmentsWithLabel(int label);
 
-    GetNumberOfSegmentsWithLabel
+    /**
+     * FillAllSegmentsByLabelArrays -  fill the images and segments array that
+     *                                 was given to the GetAllSegmentsByLabel
+     *                                 function after already allocate the
+     *                                 arrays and calculate the number of
+     *                                 segments with the label.
+     *
+     * @param images - images array that contains the image id of segment with
+     *                 the given label
+     * @param segments - segment to given label that correspond to the image
+     *                   in the images array with the same index
+     * @param number_of_segments - number of segments in all the images with
+     *                             the given label
+     */
+    void FillAllSegmentsByLabelArrays(int label, int **images, int **segments);
+
 public:
     /**                    Exceptions                    */
     class InvalidInput : public std::exception {};

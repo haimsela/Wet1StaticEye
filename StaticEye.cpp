@@ -221,13 +221,33 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
  * @param number_of_segments - number of segments in all the images with
  *                             the given label
  */
-void StaticEye::IsLabelLegal(int label, int **images, int **segments,
+void StaticEye::GetAllSegmentsByLabel(int label, int **images, int **segments,
                            int *number_of_segments){
     if (!IsLabelLegal(label)) {
         throw InvalidInput();
     }
 
-        *number_of_segments = this->GetNumberOfSegmentsWithLabel(label);
+    *number_of_segments = this->GetNumberOfSegmentsWithLabel(label);
+
+    *images = (int*)malloc(sizeof(**images)* (*number_of_segments));
+    if(*images == nullptr){
+        throw std::bad_alloc();
+    }
+
+    *segments = (int*)malloc(sizeof(**segments)* (*number_of_segments));
+    if(*segments == nullptr){
+        free(*images);
+        throw std::bad_alloc();
+    }
+
+    try{
+        this->FillAllSegmentsByLabelArrays(label,images, segments);
+    }catch (std::bad_alloc &bad_allocation) {
+        free(*images);
+        free(*segments);
+        throw bad_allocation;
+    }
+
 }
 
 /*========================================================================
@@ -252,11 +272,14 @@ int StaticEye::GetNumberOfSegmentsWithLabel(int label){
     for(int i=0;i<this->images_map_list.GetMapSize();i++){
         current_image = this->images_map_list.GetNodeData(current_node).
                                                               GetValue();
-        number_of_segments += current_image.
+
+        number_of_segments += current_image->FindNumberOfSegmentsWithLabel(
+                                                                        label);
 
         current_node = this->images_map_list.GetNextNode(current_node);
     }
 
+    return number_of_segments;
 }
 
 /**
@@ -278,4 +301,49 @@ bool StaticEye::IsValidImageId(int image_id){
 */
 bool StaticEye::IsLabelLegal(int label){
     return label > 0;
+}
+
+/**
+ * FillAllSegmentsByLabelArrays -  fill the images and segments array that
+ *                                 was given to the GetAllSegmentsByLabel
+ *                                 function after already allocate the
+ *                                 arrays and calculate the number of
+ *                                 segments with the label.
+ *
+ * @param images - images array that contains the image id of segment with
+ *                 the given label
+ * @param segments - segment to given label that correspond to the image
+ *                   in the images array with the same index
+ * @param number_of_segments - number of segments in all the images with
+ *                             the given label
+ */
+void StaticEye::FillAllSegmentsByLabelArrays(int label, int **images,
+                                             int **segments){
+
+    int number_of_segments_in_image = 0,current_number_of_segments=0,
+        current_image_id;
+
+    Image* current_image;
+    void* current_node = this->images_map_list.GetFirstNode();
+
+    for(int i=0;i<this->images_map_list.GetMapSize();i++){
+        current_image = this->images_map_list.GetNodeData(current_node).
+                                                         GetValue();
+        current_image_id = this->images_map_list.GetNodeData(current_node).
+                                                                  GetKey();
+        number_of_segments_in_image = current_image->
+                                          FindNumberOfSegmentsWithLabel(label);
+
+        for(int j=0;j<number_of_segments_in_image;j++){
+            (*images)[j+current_number_of_segments]=current_image_id;
+        }
+
+        current_image->GetAllSegmentsByLabel(
+                                       (*segments)+current_number_of_segments,
+                                       label);
+
+        current_number_of_segments+=number_of_segments_in_image;
+        current_node = this->images_map_list.GetNextNode(current_node);
+    }
+
 }

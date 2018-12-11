@@ -153,7 +153,7 @@ public:
      * @param segments - the segments array
      * @param label - the label to find
      */
-    void GetAllSegmentsByLabel(int **segments, int label );
+    void GetAllSegmentsByLabel(int *segments, int label );
 
     /**
      * FindNumberOfSegmentsWithLabel - this function get label and return the
