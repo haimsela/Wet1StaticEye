@@ -45,6 +45,12 @@ int main(int argc, const char**argv) {
     test.AddImage(8);
     test.AddLabel(8, 4, 8);
     test.AddLabel(8, 1, 8);
+
+    test.AddImage(4);
+    test.AddLabel(4, 3, 8);
+    test.AddLabel(4, 0, 8);
+    test.AddLabel(4, 2, 4);
+
     int* segmentslab;
     int* imagelab;
     int num_of_seg;

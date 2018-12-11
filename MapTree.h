@@ -93,7 +93,7 @@ public:
 
     // for the test
     const MapElement<T,K>& GetNodeData(void * node){return
-                                          map_tree.GetNodeData(node).GetKey();}
+                                          map_tree.GetNodeData(node);}
 
     /**
      * IsKeyExists - The function check if key exists in the map
