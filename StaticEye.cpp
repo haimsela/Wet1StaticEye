@@ -60,12 +60,14 @@ void StaticEye::DeleteImage(int image_id){
     }
 
     try {
+        void* node_of_image_to_delete = this->images_map_tree.FindKey(
+                                                                     image_id);
         Image* image_to_delete = this->images_map_list.GetNodeData(
-                this->images_map_tree.FindKey(image_id)).GetValue();
+                                           node_of_image_to_delete).GetValue();
         delete image_to_delete;
 
         this->images_map_tree.DeleteKey(image_id);
-        this->images_map_list.DeleteKey(image_id);
+        this->images_map_list.DeleteByPointer(node_of_image_to_delete);
     } catch (std::bad_alloc& bad_allocation ) {
         throw bad_allocation;
     } catch (typename MapList<int,Image*>::DataNotFoundException&  ){
