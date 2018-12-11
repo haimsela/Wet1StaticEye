@@ -32,6 +32,11 @@ void StaticEye::AddImage(int image_id){
         throw InvalidInput();
     }
 
+    if(this->images_map_tree.IsKeyExists(image_id)){
+        throw typename StaticEye::Failure();
+    }
+
+
     Image* new_image = new Image(this->segments);
 
     try {
@@ -39,12 +44,6 @@ void StaticEye::AddImage(int image_id){
         this->images_map_tree.Add(image_id,new_node);
     } catch (std::bad_alloc& bad_allocation ) {
         throw bad_allocation;
-    } catch (typename MapList<int,Image*>::KeyAlreadyExists&  ){
-        delete new_image;
-        throw StaticEye::Failure();
-    } catch (typename MapTree<int,void*>::KeyAlreadyExists& ) {
-        delete new_image;
-        throw StaticEye::Failure();;
     }
 }
 
@@ -75,6 +74,18 @@ void StaticEye::DeleteImage(int image_id){
     } catch (typename MapTree<int,void*>::DataNotFoundException& ) {
         throw StaticEye::Failure();;
     }
+}
+
+/**
+ * AddLabel - this function add label to image segment by finding the image
+ *            in the tree and adding the label to the image segments array
+ *
+ * @param imageID - image to add label to
+ * @param segmentID - segment to label
+ * @param label - the label to give to the segment
+ */
+void AddLabel(int imageID, int segmentID, int label){
+
 }
 
 /*========================================================================

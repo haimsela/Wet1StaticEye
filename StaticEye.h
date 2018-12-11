@@ -63,6 +63,16 @@ public:
      * @param image_id - image to delete
      */
     void DeleteImage(int image_id);
+
+    /**
+     * AddLabel - this function add label to image segment by finding the image
+     *            in the tree and adding the label to the image segments array
+     *
+     * @param imageID - image to add label to
+     * @param segmentID - segment to label
+     * @param label - the label to give to the segment
+     */
+    void AddLabel(int imageID, int segmentID, int label);
 };
 
 #endif //WET1STATICEYE_STATICEYE_H

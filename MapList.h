@@ -92,14 +92,6 @@ public:
     int GetMapSize();
 
     /**
-     * IsKeyExists - The function check if key exists in the map
-     *
-     * @param key - key to check
-     * @return - true of if exists otherwise false
-     */
-    bool IsKeyExists(const T &key);
-
-    /**
      * GetFirstNode - get the first node of the list
      *
      * @return - the first node in the list
@@ -120,7 +112,7 @@ public:
      * @param current_node - node to get the element of
      * @return the map element of the node
      */
-    const MapElement<T,K>& GetNodeData(void* current_node){
+    MapElement<T,K> GetNodeData(void* current_node){
         return this->map_list.GetNodeData(current_node);}
 
 };
@@ -137,10 +129,6 @@ public:
  */
 template<class T,class K>
 void* MapList<T,K>::Add(const T &key,const K &value){
-
-    if(IsKeyExists(key) ){
-        throw KeyAlreadyExists();
-    }
 
     MapElement<T,K> new_element(key,value);
 
@@ -210,18 +198,6 @@ void MapList<T,K>::DeleteByPointer(void* node){
 template<class T,class K>
 int MapList<T,K>::GetMapSize(){
     return this->map_list.GetLength();
-}
-
-/**
- * IsKeyExists - The function check if key exists in the map
- *
- * @param key - key to check
- * @return - true of if exists otherwise false
- */
-template<class T,class K>
-bool MapList<T,K>::IsKeyExists(const T &key){
-    MapElement<T,K> new_element(key);
-    return this->map_list.IsDataExists(new_element);
 }
 
 #endif //WETONE_MAPLIST_H

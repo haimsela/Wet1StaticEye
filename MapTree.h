@@ -117,10 +117,6 @@ public:
 template<class T,class K>
 void* MapTree<T,K>::Add(const T &key,const K &value){
 
-    if(IsKeyExists(key) ){
-        throw KeyAlreadyExists();
-    }
-
     MapElement<T,K> new_element(key,value);
     return this->map_tree.Insert(new_element);
 
