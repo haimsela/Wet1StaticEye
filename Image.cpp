@@ -40,9 +40,6 @@ Image::~Image(){
  * @param label - label to add
  */
 void Image::AddLabel(int segment_id,int label){
-    if((!this->IsSegmentIdLegal(segment_id)) || (!IsLabelLegal(label))){
-        throw InvalidInput();
-    }
 
     if(this->segments_array[segment_id]!=UNINITIALIZED_SEGMENT){
         throw Failure();
@@ -54,16 +51,12 @@ void Image::AddLabel(int segment_id,int label){
 
 /**
  * GetLabel - this function get segment id and return the label of the
- *            segment. if the segment id is invalid or the segment is
- *            uninitialized throw error
+ *            segment. if the segment is uninitialized throw error
  *
  * @param segment_id - the segment id to get the label to
  * @return
  */
 int Image::GetLabel(int segment_id){
-    if(!this->IsSegmentIdLegal(segment_id)){
-        throw InvalidInput();
-    }
 
     if(this->segments_array[segment_id]==UNINITIALIZED_SEGMENT){
         throw Failure();
@@ -74,16 +67,13 @@ int Image::GetLabel(int segment_id){
 
 /**
  * DeleteLabel - this function get segment id and return delete the label
- *               of the segment. if the segment id is invalid or the
- *               segment is uninitialized throw error. this function also
- *               update the uninitialized segments list
+ *               of the segment. if the segment is uninitialized throw
+ *               error. this function also update the uninitialized
+ *               segments list
  *
  * @param segment_id - the segment id to delete the label to
  */
 void Image::DeleteLabel(int segment_id){
-    if(!this->IsSegmentIdLegal(segment_id)){
-        throw InvalidInput();
-    }
 
     if(this->segments_array[segment_id]==UNINITIALIZED_SEGMENT){
         throw Failure();
@@ -103,6 +93,10 @@ void Image::DeleteLabel(int segment_id){
  * @return the number of unlabeled index
  */
 int Image::GetAllUnLabeledSegments(int **segments){
+ if(this->uninitialized_segments->GetLength()==0){
+     throw Failure();
+ }
+
  *segments = (int*)malloc(sizeof(**segments)*
                                    (this->uninitialized_segments->GetLength()));
 
@@ -191,27 +185,6 @@ void Image::InitializeSegmentsArray(int* segments_array, int segments){
     for(int i=0;i<segments;i++){
         segments_array[i] = UNINITIALIZED_SEGMENT;
     }
-}
-
-/**
-* IsSegmentIdLegal - this function check if segment id is ok dependent
-*                    by the number of segments in the array
-*
-* @param segment_id - segment id
-* @return true if legal otherwise false
-*/
-bool Image::IsSegmentIdLegal(int segment_id){
-    return segment_id >= 0 && segment_id < this->segments;
-}
-
-/**
-* IsLabelLegal - this function check if label is legal
-*
-* @param label - label to check
-* @return true if legal otherwise false
-*/
-bool Image::IsLabelLegal(int label){
-    return label > 0;
 }
 
 /**

@@ -2,7 +2,10 @@
 #include "StaticEye.h"
 #include <stdexcept>
 
-static bool IsValidSegments(int segemnts);
+static bool IsValidMaxSegments(int segments);
+static bool IsValidImage(int image);
+static bool IsValidSegments(int segments, int max_segments);
+static bool IsValidLabel(int label);
 
 /**
  * Init - initialize new StaticEye system
@@ -10,7 +13,7 @@ static bool IsValidSegments(int segemnts);
  * @return the new system
  */
 void *Init(int segments){
-    if(!IsValidSegments(segments)){
+    if(!IsValidMaxSegments(segments)){
         return nullptr;
     }
 
@@ -34,6 +37,10 @@ StatusType AddImage(void *DS, int imageID){
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID)){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->AddImage(imageID);
         return SUCCESS;
@@ -41,8 +48,6 @@ StatusType AddImage(void *DS, int imageID){
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -58,6 +63,10 @@ StatusType DeleteImage(void *DS, int imageID){
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID)){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->DeleteImage(imageID);
         return SUCCESS;
@@ -65,8 +74,6 @@ StatusType DeleteImage(void *DS, int imageID){
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -84,6 +91,12 @@ StatusType AddLabel(void *DS, int imageID, int segmentID, int label){
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID) ||
+       !IsValidSegments(segmentID,((StaticEye*)DS)->GetMaxSizeOfSegments()) ||
+       !IsValidLabel(label) ){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->AddLabel(imageID,segmentID,label);
         return SUCCESS;
@@ -91,8 +104,6 @@ StatusType AddLabel(void *DS, int imageID, int segmentID, int label){
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -110,6 +121,11 @@ StatusType GetLabel(void *DS, int imageID, int segmentID, int *label){
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID) ||
+       !IsValidSegments(segmentID,((StaticEye*)DS)->GetMaxSizeOfSegments())){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->GetLabel(imageID,segmentID,label);
         return SUCCESS;
@@ -117,8 +133,6 @@ StatusType GetLabel(void *DS, int imageID, int segmentID, int *label){
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -135,6 +149,11 @@ StatusType DeleteLabel(void *DS, int imageID, int segmentID){
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID) ||
+       !IsValidSegments(segmentID,((StaticEye*)DS)->GetMaxSizeOfSegments())){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->DeleteLabel(imageID,segmentID);
         return SUCCESS;
@@ -142,8 +161,6 @@ StatusType DeleteLabel(void *DS, int imageID, int segmentID){
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -165,6 +182,10 @@ StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
         return INVALID_INPUT;
     }
 
+    if(!IsValidImage(imageID)){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->GetAllUnLabeledSegments(imageID,segments,
                                                   numOfSegments);
@@ -173,8 +194,6 @@ StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -199,6 +218,10 @@ StatusType GetAllSegmentsByLabel(void *DS, int label, int **images,
         return INVALID_INPUT;
     }
 
+    if(!IsValidLabel(label)){
+        return INVALID_INPUT;
+    }
+
     try {
         ((StaticEye*)DS)->GetAllSegmentsByLabel(label,images,segments,
                                                 numOfSegments);
@@ -207,8 +230,6 @@ StatusType GetAllSegmentsByLabel(void *DS, int label, int **images,
         return ALLOCATION_ERROR;
     } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput& ) {
-        return INVALID_INPUT;
     }
 }
 
@@ -226,6 +247,18 @@ void Quit(void** DS){
     *DS = nullptr;
 }
 
-static bool IsValidSegments(int segemnts){
-    return segemnts > 0;
+static bool IsValidMaxSegments(int segments ){
+    return segments > 0 ;
+}
+
+static bool IsValidImage(int image){
+    return image > 0;
+}
+
+static bool IsValidSegments(int segments, int max_segments){
+    return segments >= 0 && segments < max_segments;
+}
+
+static bool IsValidLabel(int label){
+    return label > 0;
 }

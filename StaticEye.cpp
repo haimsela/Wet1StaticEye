@@ -28,9 +28,6 @@ StaticEye::~StaticEye(){
  * @param image_id - image id to add
  */
 void StaticEye::AddImage(int image_id){
-    if(!IsValidImageId(image_id)){
-        throw InvalidInput();
-    }
 
     if(this->images_map_tree.IsKeyExists(image_id)){
         throw StaticEye::Failure();
@@ -54,9 +51,6 @@ void StaticEye::AddImage(int image_id){
  * @param image_id - image to delete
  */
 void StaticEye::DeleteImage(int image_id){
-    if(!IsValidImageId(image_id)){
-        throw InvalidInput();
-    }
 
     try {
         void* node_of_image_to_delete = this->images_map_tree.FindKey(
@@ -85,9 +79,6 @@ void StaticEye::DeleteImage(int image_id){
  * @param label - the label to give to the segment
  */
 void StaticEye::AddLabel(int image_id, int segment_id, int label) {
-    if (!IsValidImageId(image_id)) {
-        throw InvalidInput();
-    }
 
     try {
         void *node_of_image_to_add_label_to = this->images_map_tree.FindKey(
@@ -100,8 +91,6 @@ void StaticEye::AddLabel(int image_id, int segment_id, int label) {
         throw bad_allocation;
     } catch (typename MapTree<int, void *>::DataNotFoundException &) {
         throw StaticEye::Failure();
-    } catch (typename Image::InvalidInput &) {
-        throw StaticEye::InvalidInput();
     } catch (typename Image::Failure &) {
         throw StaticEye::Failure();
     }
@@ -116,9 +105,6 @@ void StaticEye::AddLabel(int image_id, int segment_id, int label) {
  * @param label - pointer to return value of label
  */
 void StaticEye::GetLabel(int image_id, int segment_id, int* label){
-    if (!IsValidImageId(image_id)) {
-        throw InvalidInput();
-    }
 
     try {
         void *node_of_image_to_get_label_of = this->images_map_tree.FindKey(
@@ -131,8 +117,6 @@ void StaticEye::GetLabel(int image_id, int segment_id, int* label){
         throw bad_allocation;
     } catch (typename MapTree<int, void *>::DataNotFoundException &) {
         throw StaticEye::Failure();
-    } catch (typename Image::InvalidInput &) {
-        throw StaticEye::InvalidInput();
     } catch (typename Image::Failure &) {
         throw StaticEye::Failure();
     }
@@ -148,9 +132,6 @@ void StaticEye::GetLabel(int image_id, int segment_id, int* label){
  * @param segment_id - segment id to delete label of
  */
 void StaticEye::DeleteLabel(int image_id, int segment_id){
-    if (!IsValidImageId(image_id)) {
-        throw InvalidInput();
-    }
 
     try {
         void *node_of_image_to_delete_label_of = this->images_map_tree.FindKey(
@@ -163,8 +144,6 @@ void StaticEye::DeleteLabel(int image_id, int segment_id){
         throw bad_allocation;
     } catch (typename MapTree<int, void *>::DataNotFoundException &) {
         throw StaticEye::Failure();
-    } catch (typename Image::InvalidInput &) {
-        throw StaticEye::InvalidInput();
     } catch (typename Image::Failure &) {
         throw StaticEye::Failure();
     }
@@ -181,9 +160,6 @@ void StaticEye::DeleteLabel(int image_id, int segment_id){
  */
 void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
                                         int* number_of_segments){
-    if (!IsValidImageId(image_id)) {
-        throw InvalidInput();
-    }
 
     try {
         void *node_of_image_to_get_unlabeled_segments = this->images_map_tree.
@@ -199,8 +175,6 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
         throw bad_allocation;
     } catch (typename MapTree<int, void *>::DataNotFoundException &) {
         throw StaticEye::Failure();
-    } catch (typename Image::InvalidInput &) {
-        throw StaticEye::InvalidInput();
     } catch (typename Image::Failure &) {
         throw StaticEye::Failure();
     }
@@ -223,9 +197,6 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
  */
 void StaticEye::GetAllSegmentsByLabel(int label, int **images, int **segments,
                            int *number_of_segments){
-    if (!IsLabelLegal(label)) {
-        throw InvalidInput();
-    }
 
     *number_of_segments = this->GetNumberOfSegmentsWithLabel(label);
 
@@ -353,29 +324,14 @@ void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
 
     *current_number_of_segments += number_of_segments_in_image;
 
-    /**
-     * FillAllSegmentsByLabelArrays -  fill the images and segments array that
-     *                                 was given to the GetAllSegmentsByLabel
-     *                                 function after already allocate the
-     *                                 arrays and calculate the number of
-     *                                 segments with the label. this
-     *                                 function in a recursive function that
-     *                                 run on all the nodes in the tree using
-     *                                 inorder method
-     *
-     * @param node_of_current_image - pointer to the current node to add
-     *                                the segments of
-     * @param label - label to find the label segments of
-     * @param images - images array that contains the image id of segment with
-     *                 the given label
-     * @param segments - segment to given label that correspond to the image
-     *                   in the images array with the same index
-     * @param number_of_segments - number of segments in all the images with
-     *                             the given label
-     */
-    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRight(
-                                                        node_of_current_image),
-                                       label,images, segments,
-                                       current_number_of_segments);
+}
 
+
+/**
+ * GetMaxSizeOfSegments - get the maximum number of segments
+ *
+ * @return - the maximum number of segments
+ */
+int StaticEye::GetMaxSizeOfSegments(){
+    return this->segments;
 }

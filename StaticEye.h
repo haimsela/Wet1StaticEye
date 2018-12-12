@@ -67,7 +67,6 @@ class StaticEye {
 
 public:
     /**                    Exceptions                    */
-    class InvalidInput : public std::exception {};
     class Failure : public std::exception {};
 
     /**
@@ -167,6 +166,13 @@ public:
      */
     void GetAllSegmentsByLabel(int label, int **images, int **segments,
                                int *number_of_segments);
+
+    /**
+     * GetMaxSizeOfSegments - get the maximum number of segments
+     *
+     * @return - the maximum number of segments
+     */
+    int GetMaxSizeOfSegments();
 };
 
 #endif //WET1STATICEYE_STATICEYE_H
