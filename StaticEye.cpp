@@ -72,7 +72,7 @@ void StaticEye::DeleteImage(int image_id){
     } catch (typename MapList<int,Image*>::DataNotFoundException&  ){
         throw StaticEye::Failure();
     } catch (typename MapTree<int,void*>::DataNotFoundException& ) {
-        throw StaticEye::Failure();;
+        throw StaticEye::Failure();
     }
 }
 

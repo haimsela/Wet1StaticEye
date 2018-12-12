@@ -2,6 +2,7 @@
 #include "StaticEye.h"
 #include <stdexcept>
 
+static bool IsValidSegments(int segemnts);
 
 /**
  * Init - initialize new StaticEye system
@@ -9,6 +10,10 @@
  * @return the new system
  */
 void *Init(int segments){
+    if(!IsValidSegments(segments)){
+        return nullptr;
+    }
+
     try {
         StaticEye* DS = new StaticEye(segments);
         return (void*)DS;
@@ -219,4 +224,8 @@ void Quit(void** DS){
 
     delete ((StaticEye*)*DS);
     *DS = nullptr;
+}
+
+static bool IsValidSegments(int segemnts){
+    return segemnts > 0;
 }

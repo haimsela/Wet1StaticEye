@@ -440,7 +440,7 @@ void* Tree<T>::Find(const T& data_to_find){
     void* node_with_date = FindInSubTree(data_to_find,root);
 
     if(node_with_date == nullptr){
-        throw DataNotFoundException();
+        throw Tree<T>::DataNotFoundException();
     }
     return node_with_date;
 }

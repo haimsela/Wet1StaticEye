@@ -163,9 +163,8 @@ const K& MapTree<T,K>::FindKey(const T &key){
         void* node = this->map_tree.Find(new_element);
         return  this->map_tree.GetNodeData(node).GetValue();
 
-    } catch (typename Tree<MapElement<T,K>>::DataNotFoundException&
-    not_found ){
-        throw MapTree<T,K>::DataNotFoundException();
+    } catch ( typename Tree<MapElement<T,K>>::DataNotFoundException& ){
+                               throw MapTree<T,K>::DataNotFoundException();
     } catch (std::bad_alloc& bad_allocation ) {
         throw bad_allocation;
     }
