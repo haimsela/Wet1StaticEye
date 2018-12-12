@@ -310,4 +310,4 @@ namespace Tests {
 		}
 		Quit(&ds);
 	}
-}
+}//
