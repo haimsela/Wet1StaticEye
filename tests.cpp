@@ -264,6 +264,8 @@ namespace Tests {
 		}
 		SECTION("Checking NULL in images/segments and 0 in numOfSegments on getting non-existing label") {
 			REQUIRE(StatusToString(GetAllSegmentsByLabel(ds, 5, &images, &segments, &numOfSegments)) == StatusToString(SUCCESS));
+			free(segments);
+			free(images);
 			REQUIRE_NOTHROW(!images);
 			REQUIRE_NOTHROW(!segments);
 			REQUIRE(numOfSegments == 0);

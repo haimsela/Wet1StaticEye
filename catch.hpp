@@ -556,7 +556,7 @@ namespace Catch {
         {}
 
         ~StringRef() noexcept {
-            delete[] m_data;
+                delete[] m_data;
         }
 
         auto operator = ( StringRef const &other ) noexcept -> StringRef& {
