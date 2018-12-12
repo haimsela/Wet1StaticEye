@@ -2,8 +2,13 @@
 #include "StaticEye.h"
 #include <iostream>
 using namespace std;
+void test1();
 
 int main(int argc, const char**argv) {
+    test1();
+}
+
+void test1(){
     void* DS;
 
     DS = Init(5);
@@ -65,5 +70,9 @@ int main(int argc, const char**argv) {
     free(segmentslab);
     free(imagelab);
 
+    Quit(&DS);
 
+    if(DS== nullptr){
+        cout << "yay" << endl;
+    }
 }
