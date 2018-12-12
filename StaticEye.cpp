@@ -214,8 +214,9 @@ void StaticEye::GetAllSegmentsByLabel(int label, int **images, int **segments,
     try{
         int current_number_of_segments=0;
         this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRoot(),
-                                           label,images, segments,
+                                           label,*images, *segments,
                                            &current_number_of_segments);
+
     }catch (std::bad_alloc &bad_allocation) {
         free(*images);
         free(*segments);
@@ -292,8 +293,8 @@ bool StaticEye::IsLabelLegal(int label){
  *                             the given label
  */
 void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
-                                             int label, int **images,
-                                             int **segments,
+                                             int label, int *images,
+                                             int *segments,
                                              int* current_number_of_segments){
     if(node_of_current_image== nullptr){
         return;
@@ -315,15 +316,19 @@ void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
                                           FindNumberOfSegmentsWithLabel(label);
 
     for(int i=0;i<number_of_segments_in_image;i++){
-        (*images)[i+*current_number_of_segments]=current_image_id;
+        images[i+(*current_number_of_segments)]=current_image_id;
     }
 
     current_image->GetAllSegmentsByLabel(
-                                   (*segments)+(*current_number_of_segments),
+                                   segments+(*current_number_of_segments),
                                    label);
 
     *current_number_of_segments += number_of_segments_in_image;
 
+    this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetRight(
+            node_of_current_image),
+                                       label,images, segments,
+                                       current_number_of_segments);
 }
 
 

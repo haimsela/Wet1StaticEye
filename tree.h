@@ -871,13 +871,17 @@ template<class T>
 void Tree<T>::SwitchNodesPointers(Node* node1,Node* node2){
     Node *temp_node;
 
-    if(node1->GetParentNode()->GetRightNode()== node1){
+    if(node1 == this->root){
+        this->root=node2;
+    } else if(node1->GetParentNode()->GetRightNode()== node1){
         node1->GetParentNode()->SetRightNode(node2);
     } else {
         node1->GetParentNode()->SetLeftNode(node2);
     }
 
-    if(node2->GetParentNode()->GetRightNode()== node2){
+    if(node2 == this->root) {
+        this->root=node1;
+    } else if(node2->GetParentNode()->GetRightNode()== node2){
         node2->GetParentNode()->SetRightNode(node1);
     } else {
         node2->GetParentNode()->SetLeftNode(node1);

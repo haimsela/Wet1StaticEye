@@ -119,12 +119,11 @@ int Image::GetAllUnLabeledSegments(int **segments){
 int Image::FindNumberOfSegmentsWithLabel(int label){
     int number_of_segments_with_label=0;
 
-    for( int i=0;i<this->segments;i++){
+    for( int i=0; i<this->segments; i++){
         if(this->segments_array[i]==label){
             number_of_segments_with_label++;
         }
     }
-
     return number_of_segments_with_label;
 }
 
