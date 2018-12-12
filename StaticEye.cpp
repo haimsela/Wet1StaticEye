@@ -16,7 +16,7 @@ StaticEye::~StaticEye(){
 
     for(int i=0;i<this->images_map_list.GetMapSize();i++){
         current_image = this->images_map_list.GetNodeData(current_node).
-                                                                   GetValue();
+                GetValue();
         delete current_image;
         current_node = this->images_map_list.GetNextNode(current_node);
     }
@@ -54,9 +54,9 @@ void StaticEye::DeleteImage(int image_id){
 
     try {
         void* node_of_image_to_delete = this->images_map_tree.FindKey(
-                                                                     image_id);
+                image_id);
         Image* image_to_delete = this->images_map_list.GetNodeData(
-                                           node_of_image_to_delete).GetValue();
+                node_of_image_to_delete).GetValue();
         delete image_to_delete;
 
         this->images_map_tree.DeleteKey(image_id);
@@ -84,7 +84,7 @@ void StaticEye::AddLabel(int image_id, int segment_id, int label) {
         void *node_of_image_to_add_label_to = this->images_map_tree.FindKey(
                 image_id);
         Image *image_to_add_label_to = this->images_map_list.GetNodeData(
-                                    node_of_image_to_add_label_to).GetValue();
+                node_of_image_to_add_label_to).GetValue();
         image_to_add_label_to->AddLabel(segment_id, label);
 
     } catch (std::bad_alloc &bad_allocation) {
@@ -108,9 +108,9 @@ void StaticEye::GetLabel(int image_id, int segment_id, int* label){
 
     try {
         void *node_of_image_to_get_label_of = this->images_map_tree.FindKey(
-                                                                  image_id);
+                image_id);
         Image *image_to_get_label_of = this->images_map_list.GetNodeData(
-                                 node_of_image_to_get_label_of).GetValue();
+                node_of_image_to_get_label_of).GetValue();
         *label = image_to_get_label_of->GetLabel(segment_id);
 
     } catch (std::bad_alloc &bad_allocation) {
@@ -135,9 +135,9 @@ void StaticEye::DeleteLabel(int image_id, int segment_id){
 
     try {
         void *node_of_image_to_delete_label_of = this->images_map_tree.FindKey(
-                                                                    image_id);
+                image_id);
         Image *image_to_delete_label_of = this->images_map_list.GetNodeData(
-                               node_of_image_to_delete_label_of).GetValue();
+                node_of_image_to_delete_label_of).GetValue();
         image_to_delete_label_of->DeleteLabel(segment_id);
 
     } catch (std::bad_alloc &bad_allocation) {
@@ -163,19 +163,23 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
 
     try {
         void *node_of_image_to_get_unlabeled_segments = this->images_map_tree.
-                                                           FindKey(image_id);
+                FindKey(image_id);
         Image *image_to_get_unlabeled_segments = this->images_map_list.
-                         GetNodeData(node_of_image_to_get_unlabeled_segments).
-                         GetValue();
+                GetNodeData(node_of_image_to_get_unlabeled_segments).
+                GetValue();
 
         *number_of_segments = image_to_get_unlabeled_segments->
-                                           GetAllUnLabeledSegments(segments);
+                GetAllUnLabeledSegments(segments);
 
     } catch (std::bad_alloc &bad_allocation) {
         throw bad_allocation;
     } catch (typename MapTree<int, void *>::DataNotFoundException &) {
+        *number_of_segments = 0;
+        *segments = nullptr;
         throw StaticEye::Failure();
     } catch (typename Image::Failure &) {
+        *number_of_segments = 0;
+        *segments = nullptr;
         throw StaticEye::Failure();
     }
 }
@@ -196,8 +200,7 @@ void StaticEye::GetAllUnLabeledSegments(int image_id, int **segments,
  *                             the given label
  */
 void StaticEye::GetAllSegmentsByLabel(int label, int **images, int **segments,
-                           int *number_of_segments){
-
+                                      int *number_of_segments){
     *number_of_segments = this->GetNumberOfSegmentsWithLabel(label);
 
     *images = (int*)malloc(sizeof(**images)* (*number_of_segments));
@@ -246,10 +249,10 @@ int StaticEye::GetNumberOfSegmentsWithLabel(int label){
 
     for(int i=0;i<this->images_map_list.GetMapSize();i++){
         current_image = this->images_map_list.GetNodeData(current_node).
-                                                              GetValue();
+                GetValue();
 
         number_of_segments += current_image->FindNumberOfSegmentsWithLabel(
-                                                                        label);
+                label);
 
         current_node = this->images_map_list.GetNextNode(current_node);
     }
@@ -301,27 +304,27 @@ void StaticEye::FillAllSegmentsByLabelArrays(void* node_of_current_image,
     }
 
     this->FillAllSegmentsByLabelArrays(this->images_map_tree.GetLeft(
-                                                        node_of_current_image),
+            node_of_current_image),
                                        label,images, segments,
                                        current_number_of_segments);
 
     void* image_node = this->images_map_tree.GetNodeData(node_of_current_image)
-                                                                  .GetValue();
+            .GetValue();
     Image* current_image = this->images_map_list.GetNodeData(image_node)
-                                                                 .GetValue();
+            .GetValue();
     int current_image_id = this->images_map_list.GetNodeData(image_node).
-                           GetKey();
+            GetKey();
 
     int number_of_segments_in_image = current_image->
-                                          FindNumberOfSegmentsWithLabel(label);
+            FindNumberOfSegmentsWithLabel(label);
 
     for(int i=0;i<number_of_segments_in_image;i++){
         images[i+(*current_number_of_segments)]=current_image_id;
     }
 
     current_image->GetAllSegmentsByLabel(
-                                   segments+(*current_number_of_segments),
-                                   label);
+            segments+(*current_number_of_segments),
+            label);
 
     *current_number_of_segments += number_of_segments_in_image;
 
