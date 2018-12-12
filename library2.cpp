@@ -34,9 +34,9 @@ StatusType AddImage(void *DS, int imageID){
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -58,9 +58,9 @@ StatusType DeleteImage(void *DS, int imageID){
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -84,9 +84,9 @@ StatusType AddLabel(void *DS, int imageID, int segmentID, int label){
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -110,9 +110,9 @@ StatusType GetLabel(void *DS, int imageID, int segmentID, int *label){
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -135,9 +135,9 @@ StatusType DeleteLabel(void *DS, int imageID, int segmentID){
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -166,9 +166,9 @@ StatusType GetAllUnLabeledSegments(void *DS, int imageID, int **segments,
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }
@@ -200,9 +200,9 @@ StatusType GetAllSegmentsByLabel(void *DS, int label, int **images,
         return SUCCESS;
     } catch (std::bad_alloc& bad_allocation ) {
         return ALLOCATION_ERROR;
-    } catch (typename StaticEye::Failure()&  ){
+    } catch (typename StaticEye::Failure&  ){
         return FAILURE;
-    } catch (typename StaticEye::InvalidInput()& ) {
+    } catch (typename StaticEye::InvalidInput& ) {
         return INVALID_INPUT;
     }
 }

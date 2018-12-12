@@ -1,4 +1,5 @@
 #include "library2.h"
+#include "StaticEye.h"
 #include <iostream>
 using namespace std;
 
@@ -8,6 +9,11 @@ int main(int argc, const char**argv) {
     DS = Init(5);
 
     AddImage(DS,2);
+    try {
+        AddImage(DS,2);
+    } catch (typename StaticEye::Failure()&  ){
+        cout << "yay" << endl;
+    }
 
     if(AddImage(DS,2) == FAILURE){
         cout << "yay" << endl;
