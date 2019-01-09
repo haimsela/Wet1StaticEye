@@ -247,18 +247,41 @@ void Quit(void** DS){
     *DS = nullptr;
 }
 
+/**
+ * IsValidMaxSegments - check if max segments is valid
+ * @param segments - max segments to label
+ * @return true if valid, false else
+ */
+
 static bool IsValidMaxSegments(int segments ){
     return segments > 0 ;
 }
+
+/**
+ * IsValidImage - check if image is valid
+ * @param image - image id
+ * @return true if valid, false else
+*/
 
 static bool IsValidImage(int image){
     return image > 0;
 }
 
+/**
+ * IsValidSegments - check if  segments is valid
+ * @param segments - segments to label
+ * @param max_segments - max number of segments in image
+ * @return true if valid, false else
+ */
 static bool IsValidSegments(int segments, int max_segments){
     return segments >= 0 && segments < max_segments;
 }
 
+/**
+ * IsValidLabel - check if Label is valid
+ * @param Label - label to tag in image
+ * @return true if valid, false else
+ */
 static bool IsValidLabel(int label){
     return label > 0;
 }
